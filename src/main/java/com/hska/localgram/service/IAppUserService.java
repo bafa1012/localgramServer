@@ -4,7 +4,7 @@ import com.hska.localgram.model.AppUser;
 import java.util.List;
 
 /**
- * @author Fabian Bäuerlein
+ * Fabian Bäuerlein <bafa1012@hs-karlsruhe.de>
  */
 public interface IAppUserService {
 

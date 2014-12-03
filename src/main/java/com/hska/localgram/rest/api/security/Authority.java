@@ -5,7 +5,7 @@ import org.springframework.security.core.GrantedAuthority;
 /**
  * Authority class to manage the authorities.
  *
- * @author Fabian Bäuerlein
+ * Fabian Bäuerlein <bafa1012@hs-karlsruhe.de>
  *
  */
 public class Authority implements GrantedAuthority {

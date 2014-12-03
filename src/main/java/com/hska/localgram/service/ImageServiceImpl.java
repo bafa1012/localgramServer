@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 /**
  * Image service class.
  *
- * @author Fabian Bäuerlein
+ * Fabian Bäuerlein <bafa1012@hs-karlsruhe.de>
  */
 @Service
 @Transactional

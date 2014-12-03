@@ -34,7 +34,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 /**
  * Initializes and configures the application.
  * 
- * @author Fabian Bäuerlein
+ * @author Fabian Bäuerlein <bafa1012@hs-karlsruhe.de>
  */
 @Configuration
 @EnableAutoConfiguration

@@ -12,7 +12,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 /**
  * Get the user information from the database.
  * 
- * @author Fabian Bäuerlein
+ * Fabian Bäuerlein <bafa1012@hs-karlsruhe.de>
  *
  */
 public class CustomUserDetailsService implements UserDetailsService {

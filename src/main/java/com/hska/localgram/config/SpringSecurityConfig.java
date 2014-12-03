@@ -7,7 +7,7 @@ import org.springframework.context.annotation.ImportResource;
 /**
  * Initializes and configures spring security.
  * 
- * @author Fabian Bäuerlein
+ * @author Fabian Bäuerlein <bafa1012@hs-karlsruhe.de>
  */
 @Configuration
 @ImportResource({"classpath:webSecurityConfig.xml"})

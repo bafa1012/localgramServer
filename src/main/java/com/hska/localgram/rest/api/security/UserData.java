@@ -9,7 +9,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 /**
  * Container for the user data.
  * 
- * @author Fabian Bäuerlein
+ * Fabian Bäuerlein <bafa1012@hs-karlsruhe.de>
  */
 public class UserData implements UserDetails {
 

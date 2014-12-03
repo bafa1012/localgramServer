@@ -1,7 +1,7 @@
 package com.hska.localgram.util;
 
 /**
- * @author Fabian Bäuerlein
+ * Fabian Bäuerlein <bafa1012@hs-karlsruhe.de>
  */
 public class Constants {
 

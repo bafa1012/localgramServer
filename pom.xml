@@ -7,7 +7,7 @@
     <version>0.1.0</version>
     <packaging>war</packaging>
 
-    <name>localgram2</name>
+    <name>localgram</name>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
