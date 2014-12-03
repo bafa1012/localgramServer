@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package com.hska.localgram.controller;
 
 import com.hska.localgram.model.Tag;
@@ -19,8 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- *
- * @author F
+ * @author Fabian Bäuerlein
  */
 @RestController
 @RequestMapping("/tag")
@@ -33,8 +26,7 @@ public class TagRestController {
     public ResponseEntity addTag(@RequestBody Tag tag) {
         if (service.addTag(tag)) {
             return new ResponseEntity(HttpStatus.OK);
-        }
-        else {
+        } else {
             return new ResponseEntity(HttpStatus.FORBIDDEN);
         }
     }
@@ -43,14 +35,14 @@ public class TagRestController {
     public ResponseEntity deleteTag(@RequestParam(value = "id") Long id) {
         if (service.deleteTag(id)) {
             return new ResponseEntity(HttpStatus.OK);
-        }
-        else {
+        } else {
             return new ResponseEntity(HttpStatus.FORBIDDEN);
         }
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public Tag getTag(@RequestParam(value = "id", required = false, defaultValue = "8") Long id) {
+    public Tag getTag(@RequestParam(value = "id", required = false,
+                                    defaultValue = "8") Long id) {
         return service.getTag(id);
     }
 
@@ -64,8 +56,7 @@ public class TagRestController {
     public ResponseEntity updateTag(@RequestBody Tag tag) {
         if (service.updateTag(tag)) {
             return new ResponseEntity(HttpStatus.OK);
-        }
-        else {
+        } else {
             return new ResponseEntity(HttpStatus.FORBIDDEN);
         }
     }

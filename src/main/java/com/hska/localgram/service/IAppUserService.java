@@ -1,28 +1,24 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package com.hska.localgram.service;
 
 import com.hska.localgram.model.AppUser;
 import java.util.List;
 
 /**
- *
- * @author F
+ * @author Fabian Bäuerlein
  */
 public interface IAppUserService {
 
     public boolean addAppUser(AppUser appUser);
+
     public AppUser getAppUser(Long id);
+
     public AppUser checkLogin(String name, String password);
 
-    AppUser getAppUserByAuthentification(String auth);
+    public AppUser getAppUserByName(String name);
 
-    AppUser getAppUserByName(String name);
     public boolean updateAppUser(AppUser appUser);
+
     public boolean deleteAppUser(Long id);
+
     public List<AppUser> getAppUsers();
 }

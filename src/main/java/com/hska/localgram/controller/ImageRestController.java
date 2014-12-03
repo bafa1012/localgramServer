@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package com.hska.localgram.controller;
 
 import com.hska.localgram.model.Image;
@@ -20,8 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.security.access.annotation.Secured;
 
 /**
- *
- * @author F
+ * @author Fabian Bäuerlein
  */
 @RestController
 @RequestMapping("/image")
@@ -35,8 +28,7 @@ public class ImageRestController {
     public ResponseEntity addImage(@RequestBody Image image) {
         if (service.addImage(image)) {
             return new ResponseEntity(HttpStatus.OK);
-        }
-        else {
+        } else {
             return new ResponseEntity(HttpStatus.FORBIDDEN);
         }
     }
@@ -45,14 +37,14 @@ public class ImageRestController {
     public ResponseEntity deleteImage(@RequestParam(value = "id") Long id) {
         if (service.deleteImage(id)) {
             return new ResponseEntity(HttpStatus.OK);
-        }
-        else {
+        } else {
             return new ResponseEntity(HttpStatus.FORBIDDEN);
         }
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public Image getImage(@RequestParam(value = "id", required = false, defaultValue = "8") Long id) {
+    public Image getImage(@RequestParam(value = "id", required = false,
+                                        defaultValue = "8") Long id) {
         return service.getImage(id);
     }
 
@@ -66,8 +58,7 @@ public class ImageRestController {
     public ResponseEntity updateImage(@RequestBody Image image) {
         if (service.updateImage(image)) {
             return new ResponseEntity(HttpStatus.OK);
-        }
-        else {
+        } else {
             return new ResponseEntity(HttpStatus.FORBIDDEN);
         }
     }

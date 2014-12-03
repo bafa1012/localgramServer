@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.hska.localgram.service;
 
 import com.hska.localgram.model.AppUser;
@@ -13,8 +8,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
+ * User service class.
  *
- * @author F
+ * @author Fabian Bäuerlein
  */
 @Service
 @Transactional
@@ -36,11 +32,6 @@ public class AppUserServiceImpl implements IAppUserService {
     @Override
     public AppUser getAppUser(Long id) {
         return appUserDAO.getAppUser(id);
-    }
-    
-    @Override
-    public AppUser getAppUserByAuthentification(String auth) {
-        return appUserDAO.getAppUserByAuthentification(auth);
     }
     
     @Override

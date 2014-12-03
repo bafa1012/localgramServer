@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package com.hska.localgram.model;
 
 import java.io.Serializable;
@@ -11,18 +5,17 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
- *
- * @author F
+ * @author Fabian Bäuerlein
  */
 @Entity
 @Table(name = "tag")
 public class Tag implements Serializable {
+
     private static final long serialVersionUID = -4518791216791526974L;
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -57,7 +50,6 @@ public class Tag implements Serializable {
 //    public void setImage(Image image) {
 //        this.image = image;
 //    }
-
     /**
      * @return the tag
      */

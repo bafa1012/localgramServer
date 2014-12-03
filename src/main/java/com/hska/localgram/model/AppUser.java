@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package com.hska.localgram.model;
 
 import java.io.Serializable;
@@ -14,14 +8,14 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 /**
- *
- * @author F
+ * @author Fabian Bäuerlein
  */
 @Entity
-@Table(name="appuser")
+@Table(name = "appuser")
 public class AppUser implements Serializable {
+
     private static final long serialVersionUID = -5486959642628288462L;
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -52,7 +46,7 @@ public class AppUser implements Serializable {
 
     /**
      * @param mail the mail to set
-     * @return 
+     * @return
      */
     public AppUser setMail(String mail) {
         this.mail = mail;
@@ -68,7 +62,7 @@ public class AppUser implements Serializable {
 
     /**
      * @param name the name to set
-     * @return 
+     * @return
      */
     public AppUser setName(String name) {
         this.name = name;
@@ -84,7 +78,7 @@ public class AppUser implements Serializable {
 
     /**
      * @param password the password to set
-     * @return 
+     * @return
      */
     public AppUser setPassword(String password) {
         this.password = password;

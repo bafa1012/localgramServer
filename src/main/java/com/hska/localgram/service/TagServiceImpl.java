@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package com.hska.localgram.service;
 
 import com.hska.localgram.dao.TagDAOImpl;
@@ -14,8 +8,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
+ * Tag service class.
  *
- * @author F
+ * @author Fabian Bäuerlein
  */
 @Service
 @Transactional
@@ -48,5 +43,5 @@ public class TagServiceImpl implements ITagService {
     public boolean updateTag(Tag tag) {
         return tagDAO.updateTag(tag);
     }
-    
+
 }

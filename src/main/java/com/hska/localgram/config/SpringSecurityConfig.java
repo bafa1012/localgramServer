@@ -5,18 +5,17 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.ImportResource;
 
 /**
- * Expose the Spring Security Configuration
+ * Initializes and configures spring security.
  * 
- * @author malalanayake
- * 
+ * @author Fabian Bäuerlein
  */
 @Configuration
-@ImportResource({ "classpath:webSecurityConfig.xml" })
+@ImportResource({"classpath:webSecurityConfig.xml"})
 @ComponentScan("com.hska.localgram.rest.api.security")
 public class SpringSecurityConfig {
 
-	public SpringSecurityConfig() {
-		super();
-	}
+    public SpringSecurityConfig() {
+        super();
+    }
 
 }

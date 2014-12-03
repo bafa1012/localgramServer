@@ -1,13 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.hska.localgram.dao;
 
 import com.hska.localgram.model.AppUser;
-import java.util.Base64;
-import java.util.Base64.Encoder;
 import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -15,8 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 /**
- *
- * @author F
+ * @author Fabian Bäuerlein
  */
 @Repository
 public class AppUserDAOImpl implements IAppUserDAO {
@@ -57,19 +49,6 @@ public class AppUserDAOImpl implements IAppUserDAO {
         for (AppUser user : list) {
             if (user.getName()
                     .equals(name)) {
-                return user;
-            }
-        }
-        return null;
-    }
-
-    @Override
-    public AppUser getAppUserByAuthentification(String auth) {
-        List<AppUser> list = getAppUsers();
-        for (AppUser user : list) {
-            Encoder encoder = Base64.getEncoder();
-            auth = encoder.encodeToString(auth.getBytes());
-            if (auth.equals(user.getName() + ":" + user.getPassword())) {
                 return user;
             }
         }

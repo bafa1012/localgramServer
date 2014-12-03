@@ -1,6 +1,6 @@
 package com.hska.localgram.controller;
 
-import com.hska.localgram.config.util.Constants;
+import com.hska.localgram.util.Constants;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
- * Handles file up- and download requests, mainly the images of the application.
+ * @author Fabian Bäuerlein
  */
 @Controller
 @Secured("ROLE_USER")
@@ -31,16 +31,19 @@ public class fileController {
     /**
      * Upload for multiple files.
      *
-     * @param user      user as owner of the files
+     * @param user owner of the files
      * @param fileNames array of file names
-     * @param files     array of multipart files
-     * @return
+     * @param files array of multipart files
+     * @param request
+     *
+     * @return HTTP status code
      */
     @RequestMapping(value = "/uploadFile", method = RequestMethod.POST)
     public ResponseEntity uploadMultipleFileHandler(
             @RequestParam("user") String user,
             @RequestParam("name") String[] fileNames,
-            @RequestParam("file") MultipartFile[] files) {
+            @RequestParam("file") MultipartFile[] files,
+            HttpServletRequest request) {
 
         // Return HTTP conflict if length of the file array and the file name array differ in length.
         if (files.length != fileNames.length) {
@@ -53,9 +56,14 @@ public class fileController {
             try {
                 byte[] bytes = file.getBytes();
 
+                // get absolute path of the application
+                ServletContext context = request.getServletContext();
+                String appPath = context.getRealPath("");
+                System.out.println("appPath = " + appPath);
+
                 // Find or create the user directory
                 String rootPath = Constants.FILE_ROOT_PATH;
-                File dir = new File(rootPath + File.separator + user);
+                File dir = new File(appPath + File.separator + user);
                 if (!dir.exists()) {
                     dir.mkdirs();
                 }

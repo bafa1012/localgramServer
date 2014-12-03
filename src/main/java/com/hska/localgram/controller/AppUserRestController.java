@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package com.hska.localgram.controller;
 
 import com.hska.localgram.model.AppUser;
@@ -19,8 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 
 /**
- *
- * @author F
+ * @author Fabian Bäuerlein
  */
 @RestController
 @RequestMapping("/user")
@@ -33,8 +26,7 @@ public class AppUserRestController {
     public ResponseEntity addAppUser(@RequestBody AppUser user) {
         if (service.addAppUser(user)) {
             return new ResponseEntity(HttpStatus.OK);
-        }
-        else {
+        } else {
             return new ResponseEntity(HttpStatus.FORBIDDEN);
         }
     }
@@ -43,14 +35,14 @@ public class AppUserRestController {
     public ResponseEntity deleteAppUser(@RequestParam(value = "id") Long id) {
         if (service.deleteAppUser(id)) {
             return new ResponseEntity(HttpStatus.OK);
-        }
-        else {
+        } else {
             return new ResponseEntity(HttpStatus.FORBIDDEN);
         }
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public AppUser getAppUser(@RequestParam(value = "id", required = true) Long id) {
+    public AppUser getAppUser(
+            @RequestParam(value = "id", required = true) Long id) {
         return service.getAppUser(id);
     }
 
@@ -64,8 +56,7 @@ public class AppUserRestController {
     public ResponseEntity updateAppUser(@RequestBody AppUser user) {
         if (service.updateAppUser(user)) {
             return new ResponseEntity(HttpStatus.OK);
-        }
-        else {
+        } else {
             return new ResponseEntity(HttpStatus.FORBIDDEN);
         }
     }

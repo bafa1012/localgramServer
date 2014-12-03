@@ -5,69 +5,37 @@ import com.hska.localgram.service.IAppUserService;
 import java.util.ArrayList;
 import java.util.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 /**
- * CustomUserDetailsService provides the connection point to external data
- * source
- *
- * @author malalanayake
+ * Get the user information from the database.
+ * 
+ * @author Fabian Bäuerlein
  *
  */
 public class CustomUserDetailsService implements UserDetailsService {
 
     @Autowired
     private IAppUserService service;
-    private String USER_ADMIN = "admin";
-    private String PASS_ADMIN = "adminpass";
-
-    private String USER = "user";
-    private String PASS = "userpass";
 
     @Override
-    public UserDetails loadUserByUsername(String authentication) throws
+    public UserDetails loadUserByUsername(String userName) throws
             UsernameNotFoundException {
-        CustomUserData customUserData = new CustomUserData();
-        // You can talk to any of your user details service and get the
-        // authentication data and return as CustomUserData object then spring
-        // framework will take care of the authentication
-        AppUser user = service.getAppUserByName(authentication);
+        UserData userData = new UserData();
+        // Get the matching user from database
+        AppUser user = service.getAppUserByName(userName);
         if (user == null) {
             return null;
         }
-        customUserData.setAuthentication(true);
-        customUserData.setPassword(user.getPassword());
-        Collection<CustomRole> roles = new ArrayList<CustomRole>();
-        CustomRole customRole = new CustomRole();
-        customRole.setAuthority("ROLE_USER");
-        roles.add(customRole);
-        customUserData.setAuthorities(roles);
-        return customUserData;
+        userData.setAuthentication(true);
+        userData.setPassword(user.getPassword());
+        Collection<Authority> roles = new ArrayList<>();
+        Authority role = new Authority();
+        role.setAuthority("ROLE_USER");
+        roles.add(role);
+        userData.setAuthorities(roles);
+        return userData;
     }
-
-    /**
-     * Custom Role class for manage the authorities
-     *
-     * @author malalanayake
-     *
-     */
-    private class CustomRole implements GrantedAuthority {
-
-        String role = null;
-
-        @Override
-        public String getAuthority() {
-            return role;
-        }
-
-        public void setAuthority(String roleName) {
-            this.role = roleName;
-        }
-
-    }
-
 }
