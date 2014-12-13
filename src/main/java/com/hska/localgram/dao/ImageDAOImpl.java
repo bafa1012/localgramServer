@@ -50,15 +50,14 @@ public class ImageDAOImpl implements IImageDAO {
                 .list();
     }
 
+    // TODO implementation
     @Override
     public boolean updateImage(Image image) {
         Image imageToUpdate = getImage(image.getId());
-        imageToUpdate.setPathToImage(image.getPathToImage());
         getCurrentSession()
                 .update(imageToUpdate);
         Image imageUpdate = getImage(image.getId());
-        return (imageUpdate.getPathToImage()
-                .equals(image.getPathToImage()));
+        return true;
     }
 
 }

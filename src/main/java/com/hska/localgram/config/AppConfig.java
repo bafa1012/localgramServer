@@ -107,6 +107,9 @@ public class AppConfig implements WebApplicationInitializer {
         properties.put(Constants.PROPERTY_NAME_HIBERNATE_SHOW_SQL, env
                        .getRequiredProperty(
                                Constants.PROPERTY_NAME_HIBERNATE_SHOW_SQL));
+        properties.put(Constants.PROPERTY_NAME_HIBERNATE_HBM2_DDL, env
+                       .getRequiredProperty(
+                               Constants.PROPERTY_NAME_HIBERNATE_HBM2_DDL));
         return properties;
     }
 
