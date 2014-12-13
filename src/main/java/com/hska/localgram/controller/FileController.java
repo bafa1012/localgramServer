@@ -59,7 +59,6 @@ public class FileController {
                 // get absolute path of the application
                 ServletContext context = request.getServletContext();
                 String appPath = context.getRealPath("");
-                System.out.println("appPath = " + appPath);
 
                 // Find or create the user directory
                 String rootPath = Constants.FILE_ROOT_PATH;
@@ -82,11 +81,6 @@ public class FileController {
         return new ResponseEntity(HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/download/{user_name}")
-    public void getFilesByOwner() {
-
-    }
-
     @RequestMapping(value = "/download/{user_name}/{file_name:.+}",
                     method = RequestMethod.GET)
     public void download(
@@ -98,10 +92,9 @@ public class FileController {
         // get absolute path of the application
         ServletContext context = request.getServletContext();
         String appPath = context.getRealPath("");
-        System.out.println("appPath = " + appPath);
 
         // construct the complete absolute path of the file
-        String fullPath = appPath + userName + "\\" + fileName;
+        String fullPath = appPath + File.separator + userName + File.separator + fileName;
         File downloadFile = new File(fullPath);
         FileInputStream inputStream = new FileInputStream(downloadFile);
 
@@ -111,7 +104,6 @@ public class FileController {
             // set to binary type if MIME mapping not found
             mimeType = "application/octet-stream";
         }
-        System.out.println("MIME type: " + mimeType);
 
         // set content attributes for the response
         response.setContentType(mimeType);

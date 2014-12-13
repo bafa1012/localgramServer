@@ -1,13 +1,12 @@
 package com.hska.localgram.model;
 
 import java.io.Serializable;
-import java.util.Set;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * Fabian Bäuerlein <bafa1012@hs-karlsruhe.de>
@@ -23,9 +22,8 @@ public class AppUser implements Serializable {
     private Long id;
     private String name;
     private String mail;
+    @JsonIgnore
     private String password;
-    @OneToMany(mappedBy = "owner")
-    private Set<Image> images;
 
     /**
      * @return the id
@@ -39,20 +37,6 @@ public class AppUser implements Serializable {
      */
     public void setId(Long id) {
         this.id = id;
-    }
-
-    /**
-     * @return the images
-     */
-    public Set<Image> getImages() {
-        return images;
-    }
-
-    /**
-     * @param images the images to set
-     */
-    public void setImages(Set<Image> images) {
-        this.images = images;
     }
 
     /**
@@ -90,6 +74,7 @@ public class AppUser implements Serializable {
     /**
      * @return the password
      */
+    @JsonIgnore
     public String getPassword() {
         return password;
     }

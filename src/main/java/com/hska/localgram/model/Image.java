@@ -5,6 +5,7 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -14,6 +15,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.transaction.Transactional;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * Fabian Bäuerlein <bafa1012@hs-karlsruhe.de>
@@ -32,9 +34,10 @@ public class Image implements Serializable {
     private int geo_location_x;
     private int geo_location_y;
     private String file_name;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JsonIgnore
     private AppUser owner;
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(
             name = "image_tag_join",
             joinColumns = @JoinColumn(name = "image_id"),

@@ -50,6 +50,13 @@ public class ImageDAOImpl implements IImageDAO {
                 .list();
     }
 
+    @Override
+    public List<Image> getImagesByUser(Long owner) {
+        return getCurrentSession()
+                .createQuery("from Image where owner_id = " + owner)
+                .list();
+    }
+
     // TODO implementation
     @Override
     public boolean updateImage(Image image) {

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.web.bind.annotation.PathVariable;
 
 /**
  * Fabian Bäuerlein <bafa1012@hs-karlsruhe.de>
@@ -51,6 +52,12 @@ public class ImageRestController {
     @RequestMapping(value = "/all", method = RequestMethod.GET)
     public List<Image> getImages() {
         List<Image> images = service.getImages();
+        return images;
+    }
+
+    @RequestMapping(value = "/user/{user_id}", method = RequestMethod.GET)
+    public List<Image> getImagesByUser(@PathVariable("user_id") Long userId) {
+        List<Image> images = service.getImagesByUser(userId);
         return images;
     }
 

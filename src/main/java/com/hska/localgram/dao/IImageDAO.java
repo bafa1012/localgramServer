@@ -17,4 +17,6 @@ public interface IImageDAO {
     public boolean deleteImage(Long id);
 
     public List<Image> getImages();
+
+    public List<Image> getImagesByUser(Long owner);
 }
