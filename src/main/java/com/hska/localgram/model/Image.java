@@ -19,22 +19,22 @@ public class Image implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id", nullable = false)
-    private Long id;
+    @Column(name = "image_id", nullable = false)
+    private Long image_id;
     private String pathToImage;
 
     /**
-     * @return the id
+     * @return the image_id
      */
     public Long getId() {
-        return id;
+        return image_id;
     }
 
     /**
-     * @param id the id to set
+     * @param id the image_id to set
      */
     public void setId(Long id) {
-        this.id = id;
+        this.image_id = id;
     }
 
     /**

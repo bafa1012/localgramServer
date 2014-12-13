@@ -1,10 +1,14 @@
 package com.hska.localgram.model;
 
 import java.io.Serializable;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
@@ -20,7 +24,9 @@ public class Tag implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String tag;
-//    @ManyToOne
+//    @ManyToOne(optional = true, fetch = FetchType.EAGER,
+//               cascade = CascadeType.ALL, targetEntity = Image.class)
+//    @JoinColumn(name = "image_id", nullable = false)
 //    private Image image;
 
     /**
@@ -37,9 +43,9 @@ public class Tag implements Serializable {
         this.id = id;
     }
 
-    /**
-     * @return the image
-     */
+//    /**
+//     * @return the image
+//     */
 //    public Image getImage() {
 //        return image;
 //    }
@@ -50,6 +56,7 @@ public class Tag implements Serializable {
 //    public void setImage(Image image) {
 //        this.image = image;
 //    }
+
     /**
      * @return the tag
      */
