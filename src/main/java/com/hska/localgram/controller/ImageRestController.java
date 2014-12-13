@@ -61,6 +61,14 @@ public class ImageRestController {
         return images;
     }
 
+    @RequestMapping(value = "/geo/{latitude:.+}/{longitude:.+}/{radius}", method = RequestMethod.GET)
+    public List<Image> getImagesByGeoLocation(@PathVariable("latitude") double latitude,
+                                              @PathVariable("longitude") double longitude,
+                                              @PathVariable("radius") int radius) {
+        List<Image> images = service.getImagesByGeoLocation(latitude, longitude, radius);
+        return images;
+    }
+
     @RequestMapping(method = RequestMethod.PUT)
     public ResponseEntity updateImage(@RequestBody Image image) {
         if (service.updateImage(image)) {

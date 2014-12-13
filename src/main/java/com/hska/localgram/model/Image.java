@@ -31,8 +31,8 @@ public class Image implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "image_id", nullable = false)
     private Long image_id;
-    private int geo_location_x;
-    private int geo_location_y;
+    private double latitude;
+    private double longitude;
     private String file_name;
     @ManyToOne(fetch = FetchType.EAGER)
     @JsonIgnore
@@ -60,31 +60,31 @@ public class Image implements Serializable {
     }
 
     /**
-     * @return the geo_location_x
+     * @return the latitude
      */
-    public int getGeo_location_x() {
-        return geo_location_x;
+    public double getLatitude() {
+        return latitude;
     }
 
     /**
-     * @param geo_location_x the geo_location_x to set
+     * @param latitude the latitude to set
      */
-    public void setGeo_location_x(int geo_location_x) {
-        this.geo_location_x = geo_location_x;
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
     }
 
     /**
-     * @return the geo_location_y
+     * @return the longitude
      */
-    public int getGeo_location_y() {
-        return geo_location_y;
+    public double getLongitude() {
+        return longitude;
     }
 
     /**
-     * @param geo_location_y the geo_location_y to set
+     * @param longitude the geo_location_y to set
      */
-    public void setGeo_location_y(int geo_location_y) {
-        this.geo_location_y = geo_location_y;
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
     }
 
     /**

@@ -12,6 +12,8 @@ public interface IImageDAO {
 
     public Image getImage(Long id);
 
+    public List<Image> getImagesByGeoLocation(double latitude, double longitude, int radius);
+
     public boolean updateImage(Image image);
 
     public boolean deleteImage(Long id);

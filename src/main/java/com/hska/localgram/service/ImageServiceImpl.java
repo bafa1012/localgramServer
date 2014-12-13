@@ -43,6 +43,11 @@ public class ImageServiceImpl implements IImageService {
     public List<Image> getImagesByUser(Long owner) {
         return imageDAO.getImagesByUser(owner);
     }
+    
+    @Override
+    public List<Image> getImagesByGeoLocation(double latitude, double longitude, int radius) {
+        return imageDAO.getImagesByGeoLocation(latitude, longitude, radius);
+    }
 
     @Override
     public boolean updateImage(Image image) {

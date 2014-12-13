@@ -2,6 +2,7 @@ package com.hska.localgram.dao;
 
 import com.hska.localgram.model.Image;
 import java.util.List;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,6 +55,16 @@ public class ImageDAOImpl implements IImageDAO {
     public List<Image> getImagesByUser(Long owner) {
         return getCurrentSession()
                 .createQuery("from Image where owner_id = " + owner)
+                .list();
+    }
+    
+    @Override
+    public List<Image> getImagesByGeoLocation(double latitude, double longitude, int radius) {
+        return getCurrentSession()
+                .createSQLQuery("SELECT * FROM image WHERE acos(sin(:latitude) * sin(latitude) + cos(:latitude) * cos(latitude) * cos(longitude - (:longitude))) * 6371 <= :radius")
+                .setParameter("latitude", "" + latitude)
+                .setParameter("longitude", "" + longitude)
+                .setParameter("radius", "" + radius)
                 .list();
     }
 
