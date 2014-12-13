@@ -26,7 +26,7 @@ import org.springframework.web.multipart.MultipartFile;
  */
 @Controller
 @Secured("ROLE_USER")
-public class FileController2 {
+public class FileController {
 
     /**
      * Upload for multiple files.
