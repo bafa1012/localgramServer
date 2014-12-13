@@ -44,6 +44,18 @@ public class AppUserDAOImpl implements IAppUserDAO {
     }
 
     @Override
+    public AppUser getAppUserByMail(String mail) {
+        List<AppUser> list = getAppUsers();
+        for (AppUser user : list) {
+            if (user.getMail()
+                    .equals(mail)) {
+                return user;
+            }
+        }
+        return null;
+    }
+
+    @Override
     public AppUser getAppUserByName(String name) {
         List<AppUser> list = getAppUsers();
         for (AppUser user : list) {

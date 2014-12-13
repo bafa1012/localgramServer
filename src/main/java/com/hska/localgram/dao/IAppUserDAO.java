@@ -21,4 +21,6 @@ public interface IAppUserDAO {
     public boolean deleteAppUser(Long id);
 
     public List<AppUser> getAppUsers();
+    
+    public AppUser getAppUserByMail(String mail);
 }
