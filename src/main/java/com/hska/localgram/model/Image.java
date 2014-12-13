@@ -97,4 +97,32 @@ public class Image implements Serializable {
     public void setId(Long id) {
         this.image_id = id;
     }
+
+    /**
+     * @return the owner
+     */
+    public AppUser getOwner() {
+        return owner;
+    }
+
+    /**
+     * @param owner the owner to set
+     */
+    public void setOwner(AppUser owner) {
+        this.owner = owner;
+    }
+
+    /**
+     * @return the tag_list
+     */
+    public Set<Tag> getTag_list() {
+        return tag_list;
+    }
+
+    /**
+     * @param tag_list the tag_list to set
+     */
+    public void setTag_list(Set<Tag> tag_list) {
+        this.tag_list = tag_list;
+    }
 }

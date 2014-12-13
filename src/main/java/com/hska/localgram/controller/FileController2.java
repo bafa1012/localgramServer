@@ -26,7 +26,7 @@ import org.springframework.web.multipart.MultipartFile;
  */
 @Controller
 @Secured("ROLE_USER")
-public class fileController {
+public class FileController2 {
 
     /**
      * Upload for multiple files.
@@ -82,6 +82,11 @@ public class fileController {
         return new ResponseEntity(HttpStatus.OK);
     }
 
+    @RequestMapping(value = "/download/{user_name}")
+    public void getFilesByOwner() {
+
+    }
+
     @RequestMapping(value = "/download/{user_name}/{file_name:.+}",
                     method = RequestMethod.GET)
     public void download(
@@ -96,7 +101,7 @@ public class fileController {
         System.out.println("appPath = " + appPath);
 
         // construct the complete absolute path of the file
-        String fullPath = "C:\\Software\\Tomcat\\" + userName + "\\" + fileName;
+        String fullPath = appPath + userName + "\\" + fileName;
         File downloadFile = new File(fullPath);
         FileInputStream inputStream = new FileInputStream(downloadFile);
 

@@ -42,6 +42,20 @@ public class AppUser implements Serializable {
     }
 
     /**
+     * @return the images
+     */
+    public Set<Image> getImages() {
+        return images;
+    }
+
+    /**
+     * @param images the images to set
+     */
+    public void setImages(Set<Image> images) {
+        this.images = images;
+    }
+
+    /**
      * @return the mail
      */
     public String getMail() {

@@ -52,6 +52,20 @@ public class Tag implements Serializable {
     }
 
     /**
+     * @return the image
+     */
+    public Set<Image> getImage() {
+        return image;
+    }
+
+    /**
+     * @param image the image to set
+     */
+    public void setImage(Set<Image> image) {
+        this.image = image;
+    }
+
+    /**
      * @return the tag
      */
     public String getTag() {
