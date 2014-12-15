@@ -1,6 +1,7 @@
 package com.hska.localgram.service;
 
-import com.hska.localgram.dao.TagDAOImpl;
+import com.hska.localgram.dao.ITagDAO;
+import com.hska.localgram.model.Image;
 import com.hska.localgram.model.Tag;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,11 +18,11 @@ import org.springframework.transaction.annotation.Transactional;
 public class TagServiceImpl implements ITagService {
 
     @Autowired
-    private TagDAOImpl tagDAO;
+    private ITagDAO tagDAO;
 
     @Override
-    public Tag addTag(Tag tag) {
-        return tagDAO.addTag(tag);
+    public Tag addTag(Tag tag, Image image) {
+        return tagDAO.addTag(tag, image);
     }
 
     @Override

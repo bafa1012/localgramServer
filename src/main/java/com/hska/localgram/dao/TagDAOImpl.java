@@ -1,5 +1,6 @@
 package com.hska.localgram.dao;
 
+import com.hska.localgram.model.Image;
 import com.hska.localgram.model.Tag;
 import java.util.List;
 import org.hibernate.HibernateException;
@@ -28,9 +29,17 @@ public class TagDAOImpl implements ITagDAO {
     }
 
     @Override
-    public Tag addTag(Tag tag) {
-        getCurrentSession().save(tag);
-        return getTagByContent(tag.getTag());
+    public Tag addTag(Tag newTag, Image image) {
+        Tag tag = getTagByContent(newTag.getTag());
+        if (tag == null) {
+            tag = newTag;
+        }
+        if (!tag.getImages().contains(image)) {
+            tag.addImage(image);
+        }
+        image.addTag(tag);
+        getCurrentSession().save(newTag);
+        return getTagByContent(newTag.getTag());
     }
 
     @Override

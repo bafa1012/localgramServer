@@ -1,5 +1,6 @@
 package com.hska.localgram.controller;
 
+import com.hska.localgram.model.Image;
 import com.hska.localgram.model.Tag;
 import com.hska.localgram.service.ITagService;
 import java.util.List;
@@ -23,8 +24,8 @@ public class TagRestController {
     private ITagService service;
 
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity addTag(@RequestBody Tag tag) {
-        if (service.addTag(tag) != null) {
+    public ResponseEntity addTag(@RequestBody Tag tag, @RequestBody Image image) {
+        if (service.addTag(tag, image) != null) {
             return new ResponseEntity(HttpStatus.OK);
         } else {
             return new ResponseEntity(HttpStatus.FORBIDDEN);

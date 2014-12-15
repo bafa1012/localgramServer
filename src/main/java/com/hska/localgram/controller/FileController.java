@@ -94,6 +94,10 @@ public class FileController {
                 return new ResponseEntity(HttpStatus.NOT_ACCEPTABLE);
             }
             Image image = new Image();
+            image.setFile_name(meta[i][0]);
+            image.setLatitude(latitude);
+            image.setLongitude(longitude);
+            image.setOwner(user);
             HashSet<Tag> tagSet = new HashSet<>();
             for(String string : tags[i]) {
                 Tag tag = tagDAO.getTagByContent(string);
@@ -102,14 +106,10 @@ public class FileController {
                 }
                 tag.addImage(image);
                 tag.setTag(string);
-                tag = tagDAO.addTag(tag);
+                tag = tagDAO.addTag(tag, image);
                 tagSet.add(tag);
             }
-            image.setFile_name(meta[i][0]);
-            image.setLatitude(latitude);
-            image.setLongitude(longitude);
-            image.setOwner(user);
-            image.setTagList(tagSet);
+            image.addTagSet(tagSet);
             image = imageDAO.addImage(image);
             try {
                 byte[] bytes = file.getBytes();

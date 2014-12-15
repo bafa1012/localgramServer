@@ -47,6 +47,13 @@ public class Tag implements Serializable {
     }
 
     /**
+     * @return the images
+     */
+    public Set<Image> getImages() {
+        return new HashSet<>(images);
+    }
+
+    /**
      * @param id the id to set
      * @return 
      */
@@ -56,21 +63,14 @@ public class Tag implements Serializable {
     }
 
     /**
-     * @return the images
-     */
-    public Set<Image> getImage() {
-        return images;
-    }
-
-    /**
      * @param image the images to set
      * @return 
      */
     public Tag addImage(Image image) {
-        if (this.images == null) {
+        if (this.getImages() == null) {
             images = new HashSet<>();
         }
-        this.images.add(image);
+        this.getImages().add(image);
         return this;
     }
 

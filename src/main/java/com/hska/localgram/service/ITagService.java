@@ -1,5 +1,6 @@
 package com.hska.localgram.service;
 
+import com.hska.localgram.model.Image;
 import com.hska.localgram.model.Tag;
 import java.util.List;
 
@@ -8,7 +9,7 @@ import java.util.List;
  */
 public interface ITagService {
 
-    public Tag addTag(Tag tag);
+    public Tag addTag(Tag tag, Image image);
 
     public Tag getTag(Long id);
 

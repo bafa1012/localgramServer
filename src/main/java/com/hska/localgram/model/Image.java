@@ -16,6 +16,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.transaction.Transactional;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import java.util.HashSet;
 
 /**
  * Fabian Bäuerlein <bafa1012@hs-karlsruhe.de>
@@ -127,15 +128,29 @@ public class Image implements Serializable {
      * @return the tag_list
      */
     public Set<Tag> getTag_list() {
-        return tag_list;
+        return new HashSet<>(tag_list);
     }
 
     /**
-     * @param tag_list the tag_list to set
+     * @param tags
      * @return 
      */
-    public Image setTagList(Set<Tag> tag_list) {
-        this.tag_list = tag_list;
+    public Image addTagSet(Set<Tag> tags) {
+        for (Tag tag : tags) {
+            this.tag_list.add(tag);
+        }
+        return this;
+    }
+
+    /**
+     * @param tag
+     * @return 
+     */
+    public Image addTag(Tag tag) {
+        if (this.tag_list == null) {
+            tag_list = new HashSet<>();
+        }
+        this.tag_list.add(tag);
         return this;
     }
 }
