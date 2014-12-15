@@ -1,6 +1,7 @@
 package com.hska.localgram.controller;
 
 import com.hska.localgram.dao.IAppUserDAO;
+import com.hska.localgram.model.AppUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,6 +35,7 @@ public class UserRestController {
         if (user.getAppUserByMail(mail) != null || user.getAppUserByName(username) != null) {
             return new ResponseEntity(HttpStatus.FORBIDDEN);
         }
+        user.addAppUser(new AppUser().setMail(mail).setName(username).setPassword(password));
         return new ResponseEntity(HttpStatus.OK);
     }
 }
