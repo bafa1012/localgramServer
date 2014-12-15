@@ -27,7 +27,7 @@ public class ImageRestController {
 
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity addImage(@RequestBody Image image) {
-        if (service.addImage(image)) {
+        if (service.addImage(image) != null) {
             return new ResponseEntity(HttpStatus.OK);
         } else {
             return new ResponseEntity(HttpStatus.FORBIDDEN);

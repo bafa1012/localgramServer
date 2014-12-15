@@ -20,7 +20,7 @@ public class ImageServiceImpl implements IImageService {
     private IImageDAO imageDAO;
 
     @Override
-    public boolean addImage(Image image) {
+    public Image addImage(Image image) {
         return imageDAO.addImage(image);
     }
 

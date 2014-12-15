@@ -1,6 +1,7 @@
 package com.hska.localgram.model;
 
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -36,7 +37,7 @@ public class Tag implements Serializable {
             joinColumns = @JoinColumn(name = "tag_id"),
             inverseJoinColumns = @JoinColumn(name = "image_id")
     )
-    private Set<Image> image;
+    private Set<Image> images;
 
     /**
      * @return the id
@@ -47,23 +48,30 @@ public class Tag implements Serializable {
 
     /**
      * @param id the id to set
+     * @return 
      */
-    public void setId(Long id) {
+    public Tag setId(Long id) {
         this.id = id;
+        return this;
     }
 
     /**
-     * @return the image
+     * @return the images
      */
     public Set<Image> getImage() {
-        return image;
+        return images;
     }
 
     /**
-     * @param image the image to set
+     * @param image the images to set
+     * @return 
      */
-    public void setImage(Set<Image> image) {
-        this.image = image;
+    public Tag addImage(Image image) {
+        if (this.images == null) {
+            images = new HashSet<>();
+        }
+        this.images.add(image);
+        return this;
     }
 
     /**
@@ -75,8 +83,10 @@ public class Tag implements Serializable {
 
     /**
      * @param tag the tag to set
+     * @return 
      */
-    public void setTag(String tag) {
+    public Tag setTag(String tag) {
         this.tag = tag;
+        return this;
     }
 }

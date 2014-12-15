@@ -8,7 +8,7 @@ import java.util.List;
  */
 public interface IImageService {
 
-    public boolean addImage(Image image);
+    public Image addImage(Image image);
 
     public Image getImage(Long id);
 

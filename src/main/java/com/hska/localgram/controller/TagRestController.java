@@ -24,7 +24,7 @@ public class TagRestController {
 
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity addTag(@RequestBody Tag tag) {
-        if (service.addTag(tag)) {
+        if (service.addTag(tag) != null) {
             return new ResponseEntity(HttpStatus.OK);
         } else {
             return new ResponseEntity(HttpStatus.FORBIDDEN);

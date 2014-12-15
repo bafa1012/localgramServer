@@ -8,7 +8,7 @@ import java.util.List;
  */
 public interface ITagService {
 
-    public boolean addTag(Tag tag);
+    public Tag addTag(Tag tag);
 
     public Tag getTag(Long id);
 

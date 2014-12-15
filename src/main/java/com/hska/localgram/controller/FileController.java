@@ -1,5 +1,11 @@
 package com.hska.localgram.controller;
 
+import com.hska.localgram.dao.IAppUserDAO;
+import com.hska.localgram.dao.IImageDAO;
+import com.hska.localgram.dao.ITagDAO;
+import com.hska.localgram.model.AppUser;
+import com.hska.localgram.model.Image;
+import com.hska.localgram.model.Tag;
 import com.hska.localgram.util.Constants;
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -7,9 +13,12 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.Arrays;
+import java.util.HashSet;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 
 import org.springframework.http.ResponseEntity;
@@ -28,11 +37,25 @@ import org.springframework.web.multipart.MultipartFile;
 @Secured("ROLE_USER")
 public class FileController {
 
+    @Autowired
+    IAppUserDAO userDAO;
+
+    @Autowired
+    ITagDAO tagDAO;
+
+    @Autowired
+    IImageDAO imageDAO;
+
     /**
      * Upload for multiple files.
      *
-     * @param user owner of the files
-     * @param fileNames array of file names
+     * @param meta array of meta data -> first index indicates to the images,
+     *                                   second is build as follows:
+     *                                   0 -> file name
+     *                                   1 -> latitude
+     *                                   2 -> longitude
+     *                                   3 -> user id
+     * @param tags array with associated tags
      * @param files array of multipart files
      * @param request
      *
@@ -40,19 +63,54 @@ public class FileController {
      */
     @RequestMapping(value = "/uploadFile", method = RequestMethod.POST)
     public ResponseEntity uploadMultipleFileHandler(
-            @RequestParam("user") String user,
-            @RequestParam("name") String[] fileNames,
+            @RequestParam("meta") String[][] meta,
+            @RequestParam("tags") String[][] tags,
             @RequestParam("file") MultipartFile[] files,
             HttpServletRequest request) {
 
         // Return HTTP conflict if length of the file array and the file name array differ in length.
-        if (files.length != fileNames.length) {
+        if (files.length != meta.length || files.length != tags.length) {
             return new ResponseEntity(HttpStatus.CONFLICT);
         }
 
         for (int i = 0; i < files.length; i++) {
             MultipartFile file = files[i];
-            String name = fileNames[i];
+            String name = meta[i][0];
+            // create meta object for image
+            double latitude;
+            double longitude;
+            long userID;
+            AppUser user;
+            try {
+                latitude = Double.valueOf(meta[i][1]);
+                longitude = Double.valueOf(meta[i][2]);
+                userID = Long.valueOf(meta[i][3]);
+                user = userDAO.getAppUser(userID);
+                if (user == null) {
+                    throw new Exception("user not found");
+                }
+            }
+            catch (Exception e) {
+                return new ResponseEntity(HttpStatus.NOT_ACCEPTABLE);
+            }
+            Image image = new Image();
+            HashSet<Tag> tagSet = new HashSet<>();
+            for(String string : tags[i]) {
+                Tag tag = tagDAO.getTagByContent(string);
+                if (tag == null) {
+                    tag = new Tag();
+                }
+                tag.addImage(image);
+                tag.setTag(string);
+                tag = tagDAO.addTag(tag);
+                tagSet.add(tag);
+            }
+            image.setFile_name(meta[i][0]);
+            image.setLatitude(latitude);
+            image.setLongitude(longitude);
+            image.setOwner(user);
+            image.setTagList(tagSet);
+            image = imageDAO.addImage(image);
             try {
                 byte[] bytes = file.getBytes();
 
@@ -61,8 +119,7 @@ public class FileController {
                 String appPath = context.getRealPath("");
 
                 // Find or create the user directory
-                String rootPath = Constants.FILE_ROOT_PATH;
-                File dir = new File(appPath + File.separator + user);
+                File dir = new File(appPath + File.separator + meta[i][3]);
                 if (!dir.exists()) {
                     dir.mkdirs();
                 }
@@ -75,6 +132,7 @@ public class FileController {
                 stream.write(bytes);
                 stream.close();
             } catch (Exception e) {
+                imageDAO.deleteImage(image.getId());
                 return new ResponseEntity(HttpStatus.NOT_FOUND);
             }
         }

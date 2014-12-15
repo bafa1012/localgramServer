@@ -54,9 +54,11 @@ public class Image implements Serializable {
 
     /**
      * @param file_name the file_name to set
+     * @return 
      */
-    public void setFile_name(String file_name) {
+    public Image setFile_name(String file_name) {
         this.file_name = file_name;
+        return this;
     }
 
     /**
@@ -68,9 +70,11 @@ public class Image implements Serializable {
 
     /**
      * @param latitude the latitude to set
+     * @return 
      */
-    public void setLatitude(double latitude) {
+    public Image setLatitude(double latitude) {
         this.latitude = latitude;
+        return this;
     }
 
     /**
@@ -82,9 +86,11 @@ public class Image implements Serializable {
 
     /**
      * @param longitude the geo_location_y to set
+     * @return 
      */
-    public void setLongitude(double longitude) {
+    public Image setLongitude(double longitude) {
         this.longitude = longitude;
+        return this;
     }
 
     /**
@@ -97,8 +103,9 @@ public class Image implements Serializable {
     /**
      * @param id the image_id to set
      */
-    public void setId(Long id) {
+    public Image setId(Long id) {
         this.image_id = id;
+        return this;
     }
 
     /**
@@ -111,8 +118,9 @@ public class Image implements Serializable {
     /**
      * @param owner the owner to set
      */
-    public void setOwner(AppUser owner) {
+    public Image setOwner(AppUser owner) {
         this.owner = owner;
+        return this;
     }
 
     /**
@@ -124,8 +132,10 @@ public class Image implements Serializable {
 
     /**
      * @param tag_list the tag_list to set
+     * @return 
      */
-    public void setTag_list(Set<Tag> tag_list) {
+    public Image setTagList(Set<Tag> tag_list) {
         this.tag_list = tag_list;
+        return this;
     }
 }

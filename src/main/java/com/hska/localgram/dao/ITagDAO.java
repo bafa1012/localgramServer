@@ -8,9 +8,11 @@ import java.util.List;
  */
 public interface ITagDAO {
 
-    public boolean addTag(Tag tag);
+    public Tag addTag(Tag tag);
 
     public Tag getTag(Long id);
+
+    public Tag getTagByContent(String content);
 
     public boolean updateTag(Tag tag);
 

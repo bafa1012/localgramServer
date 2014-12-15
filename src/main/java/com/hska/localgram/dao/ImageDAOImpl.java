@@ -1,8 +1,9 @@
 package com.hska.localgram.dao;
 
+import com.hska.localgram.model.AppUser;
 import com.hska.localgram.model.Image;
 import java.util.List;
-import org.hibernate.Query;
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,14 +19,20 @@ public class ImageDAOImpl implements IImageDAO {
     private SessionFactory sessionFactory;
 
     private Session getCurrentSession() {
-        return sessionFactory.getCurrentSession();
+        Session session;
+        try {
+            session = sessionFactory.getCurrentSession();
+        } catch (HibernateException e) {
+            session = sessionFactory.openSession();
+        }
+        return session;
     }
 
     @Override
-    public boolean addImage(Image image) {
+    public Image addImage(Image image) {
         getCurrentSession()
                 .save(image);
-        return true;
+        return getImageByFileNameAndUser(image.getFile_name(), image.getOwner());
     }
 
     @Override
@@ -45,6 +52,20 @@ public class ImageDAOImpl implements IImageDAO {
     }
 
     @Override
+    public Image getImageByFileNameAndUser(String fileName, AppUser user) {
+        List<Image> images = getImages();
+        for (Image image : images) {
+            if (image.getOwner()
+                    .equals(user)
+                    && image.getFile_name()
+                    .equals(fileName)) {
+                return image;
+            }
+        }
+        return null;
+    }
+
+    @Override
     public List<Image> getImages() {
         return getCurrentSession()
                 .createQuery("from Image")
@@ -57,11 +78,13 @@ public class ImageDAOImpl implements IImageDAO {
                 .createQuery("from Image where owner_id = " + owner)
                 .list();
     }
-    
+
     @Override
-    public List<Image> getImagesByGeoLocation(double latitude, double longitude, int radius) {
+    public List<Image> getImagesByGeoLocation(double latitude, double longitude,
+                                              int radius) {
         return getCurrentSession()
-                .createSQLQuery("SELECT * FROM image WHERE acos(sin(:latitude) * sin(latitude) + cos(:latitude) * cos(latitude) * cos(longitude - (:longitude))) * 6371 <= :radius")
+                .createSQLQuery(
+                        "SELECT * FROM image WHERE acos(sin(:latitude) * sin(latitude) + cos(:latitude) * cos(latitude) * cos(longitude - (:longitude))) * 6371 <= :radius")
                 .setParameter("latitude", "" + latitude)
                 .setParameter("longitude", "" + longitude)
                 .setParameter("radius", "" + radius)

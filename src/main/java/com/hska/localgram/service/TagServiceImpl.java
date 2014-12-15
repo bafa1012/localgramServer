@@ -20,7 +20,7 @@ public class TagServiceImpl implements ITagService {
     private TagDAOImpl tagDAO;
 
     @Override
-    public boolean addTag(Tag tag) {
+    public Tag addTag(Tag tag) {
         return tagDAO.addTag(tag);
     }
 

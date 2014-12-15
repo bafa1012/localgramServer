@@ -35,7 +35,6 @@ public class UserRestController {
         if (user.getAppUserByMail(mail) != null || user.getAppUserByName(username) != null) {
             return new ResponseEntity(HttpStatus.FORBIDDEN);
         }
-        System.out.println("REGISTER");
         user.addAppUser(new AppUser().setMail(mail).setName(username).setPassword(password));
         return new ResponseEntity(HttpStatus.OK);
     }

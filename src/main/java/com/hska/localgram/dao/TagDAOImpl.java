@@ -2,6 +2,7 @@ package com.hska.localgram.dao;
 
 import com.hska.localgram.model.Tag;
 import java.util.List;
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,13 +18,19 @@ public class TagDAOImpl implements ITagDAO {
     private SessionFactory sessionFactory;
     
     private Session getCurrentSession() {
-        return sessionFactory.getCurrentSession();
+        Session session;
+        try {
+            session = sessionFactory.getCurrentSession();
+        } catch (HibernateException e) {
+            session = sessionFactory.openSession();
+        }
+        return session;
     }
 
     @Override
-    public boolean addTag(Tag tag) {
+    public Tag addTag(Tag tag) {
         getCurrentSession().save(tag);
-        return true;
+        return getTagByContent(tag.getTag());
     }
 
     @Override
@@ -38,6 +45,17 @@ public class TagDAOImpl implements ITagDAO {
     @Override
     public Tag getTag(Long id) {
         return (Tag) getCurrentSession().get(Tag.class, id);
+    }
+
+    @Override
+    public Tag getTagByContent(String content) {
+        List<Tag> tags = getTags();
+        for (Tag tag : tags) {
+            if (tag.getTag().equals(content)) {
+                return tag;
+            }
+        }
+        return null;
     }
 
     @Override

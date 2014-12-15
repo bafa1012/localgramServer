@@ -34,9 +34,11 @@ public class AppUser implements Serializable {
 
     /**
      * @param id the id to set
+     * @return 
      */
-    public void setId(Long id) {
+    public AppUser setId(Long id) {
         this.id = id;
+        return this;
     }
 
     /**
