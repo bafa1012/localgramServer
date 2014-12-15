@@ -2,6 +2,7 @@ package com.hska.localgram.dao;
 
 import com.hska.localgram.model.AppUser;
 import java.util.List;
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +18,13 @@ public class AppUserDAOImpl implements IAppUserDAO {
     private SessionFactory sessionFactory;
 
     private Session getCurrentSession() {
-        return sessionFactory.getCurrentSession();
+        Session session;
+        try {
+            session = sessionFactory.getCurrentSession();
+        } catch (HibernateException e) {
+            session = sessionFactory.openSession();
+        }
+        return session;
     }
 
     @Override
