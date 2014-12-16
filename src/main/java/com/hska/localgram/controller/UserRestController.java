@@ -4,6 +4,7 @@ import com.hska.localgram.dao.IAppUserDAO;
 import com.hska.localgram.model.AppUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,7 +29,7 @@ public class UserRestController {
         return new ResponseEntity("{\"login\": \"successful\"}", HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/register", method = RequestMethod.POST, consumes="application/x-www-form-urlencoded")
+    @RequestMapping(value = "/register", method = RequestMethod.POST, consumes={MediaType.APPLICATION_FORM_URLENCODED_VALUE})
     public ResponseEntity registerUser(@RequestParam(value = "username") String username,
                                        @RequestParam(value = "mail") String mail,
                                        @RequestParam(value = "password") String password ) {

@@ -61,6 +61,12 @@ public class ImageRestController {
         return images;
     }
 
+    @RequestMapping(value = "/tag/{tag_id}", method = RequestMethod.GET)
+    public List<Image> getImagesByTag(@PathVariable("tag_id") Long tagID) {
+        List<Image> images = service.getImagesByTag(tagID);
+        return images;
+    }
+
     @RequestMapping(value = "/geo/{latitude:.+}/{longitude:.+}/{radius}", method = RequestMethod.GET)
     public List<Image> getImagesByGeoLocation(@PathVariable("latitude") double latitude,
                                               @PathVariable("longitude") double longitude,

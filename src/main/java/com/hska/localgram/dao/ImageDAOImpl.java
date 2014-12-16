@@ -2,6 +2,7 @@ package com.hska.localgram.dao;
 
 import com.hska.localgram.model.AppUser;
 import com.hska.localgram.model.Image;
+import com.hska.localgram.model.Tag;
 import java.util.List;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -77,6 +78,17 @@ public class ImageDAOImpl implements IImageDAO {
         return getCurrentSession()
                 .createQuery("from Image where owner_id = " + owner)
                 .list();
+    }
+
+    @Override
+    public List<Image> getImagesByTag(Tag tag) {
+        List<Image> images = getImages();
+        for (Image i : images) {
+            if (!i.getTag_list().contains(tag)) {
+                images.remove(i);
+            }
+        }
+        return images;
     }
 
     @Override

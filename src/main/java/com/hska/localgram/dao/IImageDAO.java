@@ -2,6 +2,7 @@ package com.hska.localgram.dao;
 
 import com.hska.localgram.model.AppUser;
 import com.hska.localgram.model.Image;
+import com.hska.localgram.model.Tag;
 import java.util.List;
 
 /**
@@ -16,6 +17,8 @@ public interface IImageDAO {
     public Image getImageByFileNameAndUser(String fileName, AppUser userID);
 
     public List<Image> getImagesByGeoLocation(double latitude, double longitude, int radius);
+
+    public List<Image> getImagesByTag(Tag tag);
 
     public boolean updateImage(Image image);
 

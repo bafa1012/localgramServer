@@ -14,6 +14,8 @@ public interface IImageService {
 
     public List<Image> getImagesByGeoLocation(double latitude, double longitude, int radius);
 
+    public List<Image> getImagesByTag(Long tagID);
+
     public boolean updateImage(Image image);
 
     public boolean deleteImage(Long id);

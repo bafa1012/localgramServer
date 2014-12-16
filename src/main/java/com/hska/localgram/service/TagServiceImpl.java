@@ -44,5 +44,4 @@ public class TagServiceImpl implements ITagService {
     public boolean updateTag(Tag tag) {
         return tagDAO.updateTag(tag);
     }
-
 }

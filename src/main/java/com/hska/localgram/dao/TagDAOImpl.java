@@ -80,5 +80,4 @@ public class TagDAOImpl implements ITagDAO {
         Tag tagUpdate = getTag(tag.getId());
         return (tagUpdate.getTag().equals(tag.getTag()));
     }
-    
 }
