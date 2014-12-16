@@ -1,7 +1,9 @@
 package com.hska.localgram.controller;
 
 import com.hska.localgram.model.Image;
+import com.hska.localgram.model.ImageTagVote;
 import com.hska.localgram.model.Tag;
+import com.hska.localgram.service.IImageTagVoteService;
 import com.hska.localgram.service.ITagService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +24,9 @@ public class TagRestController {
 
     @Autowired
     private ITagService service;
+
+    @Autowired
+    private IImageTagVoteService vote;
 
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity addTag(@RequestBody Tag tag, @RequestBody Image image) {
@@ -45,6 +50,12 @@ public class TagRestController {
     public Tag getTag(@RequestParam(value = "id", required = false,
                                     defaultValue = "8") Long id) {
         return service.getTag(id);
+    }
+
+    @RequestMapping(value = "/vote", method = RequestMethod.GET)
+    public Tag voteTag(@RequestParam(value = "id") Long id) {
+        ImageTagVote v = vote.vote(id);
+        return v.getTag();
     }
 
     @RequestMapping(value = "/all", method = RequestMethod.GET)

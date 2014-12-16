@@ -18,6 +18,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.hibernate4.HibernateTransactionManager;
 import org.springframework.orm.hibernate4.LocalSessionFactoryBean;
@@ -96,9 +97,15 @@ public class AppConfig implements WebApplicationInitializer {
         sessionFactoryBean.setHibernateProperties(hibProperties());
         return sessionFactoryBean;
     }
+    
+    @Bean
+    public MappingJackson2HttpMessageConverter jacksonMapping() {
+        MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
+        converter.setJsonPrefix("false");
+        return converter;
+    }
 
     // Hibernate configuration
-
     private Properties hibProperties() {
         Properties properties = new Properties();
         properties.put(Constants.PROPERTY_NAME_HIBERNATE_DIALECT, env

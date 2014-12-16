@@ -1,8 +1,5 @@
 package com.hska.localgram.controller;
 
-import com.hska.localgram.config.AppConfig;
-import com.hska.localgram.config.SpringSecurityConfig;
-import com.hska.localgram.config.SpringSecurityInitializer;
 import com.hska.localgram.dao.IAppUserDAO;
 import com.hska.localgram.dao.IImageDAO;
 import com.hska.localgram.dao.ITagDAO;
@@ -19,7 +16,6 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
-import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import static org.mockito.Mockito.when;
@@ -27,9 +23,6 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mock.web.MockHttpServletRequest;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 

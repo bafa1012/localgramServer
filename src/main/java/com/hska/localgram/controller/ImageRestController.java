@@ -25,7 +25,7 @@ public class ImageRestController {
     @Autowired
     private IImageService service;
 
-    @RequestMapping(method = RequestMethod.POST)
+    @RequestMapping(method = RequestMethod.POST, consumes="application/x-www-form-urlencoded")
     public ResponseEntity addImage(@RequestBody Image image) {
         if (service.addImage(image) != null) {
             return new ResponseEntity(HttpStatus.OK);

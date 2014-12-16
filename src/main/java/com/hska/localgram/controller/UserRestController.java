@@ -25,17 +25,17 @@ public class UserRestController {
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     @Secured("ROLE_USER")
     public ResponseEntity getLogin() {
-        return new ResponseEntity(HttpStatus.I_AM_A_TEAPOT);
+        return new ResponseEntity("{\"login\": \"successful\"}", HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/register", method = RequestMethod.POST)
+    @RequestMapping(value = "/register", method = RequestMethod.POST, consumes="application/x-www-form-urlencoded")
     public ResponseEntity registerUser(@RequestParam(value = "username") String username,
                                        @RequestParam(value = "mail") String mail,
                                        @RequestParam(value = "password") String password ) {
         if (user.getAppUserByMail(mail) != null || user.getAppUserByName(username) != null) {
-            return new ResponseEntity(HttpStatus.FORBIDDEN);
+            return new ResponseEntity("{\"register\": \"not successful\"}", HttpStatus.FORBIDDEN);
         }
         user.addAppUser(new AppUser().setMail(mail).setName(username).setPassword(password));
-        return new ResponseEntity(HttpStatus.OK);
+        return new ResponseEntity("{\"register\": \"successful\"}", HttpStatus.OK);
     }
 }
