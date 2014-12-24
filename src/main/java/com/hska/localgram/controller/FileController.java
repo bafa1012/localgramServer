@@ -5,6 +5,7 @@ import com.hska.localgram.dao.IImageDAO;
 import com.hska.localgram.dao.ITagDAO;
 import com.hska.localgram.model.AppUser;
 import com.hska.localgram.model.Image;
+import com.hska.localgram.model.ImageContainer;
 import com.hska.localgram.model.Tag;
 import com.hska.localgram.util.Constants;
 import java.io.BufferedOutputStream;
@@ -13,7 +14,6 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.Arrays;
 import java.util.HashSet;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -25,10 +25,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
 
 /**
  * Fabian Bäuerlein <bafa1012@hs-karlsruhe.de>
@@ -46,60 +45,57 @@ public class FileController {
     @Autowired
     IImageDAO imageDAO;
 
+//    @RequestMapping(value = "/img", method = RequestMethod.POST,
+//                    produces = "application/json", consumes = "application/json")
+//    public ResponseEntity<ImageContainer> postImage(@RequestBody ImageContainer container) {
+//
+//        return new ResponseEntity<>(container, HttpStatus.OK);
+//    }
     /**
      * Upload for multiple files.
      *
-     * @param meta array of meta data -> first index indicates to the images,
-     *                                   second is build as follows:
-     *                                   0 -> file name
-     *                                   1 -> latitude
-     *                                   2 -> longitude
-     *                                   3 -> user id
-     * @param tags array with associated tags
-     * @param files array of multipart files
+     * @param container
      * @param request
      *
-     * @return HTTP status code
+     * @return ImageContainer
      */
-    @RequestMapping(value = "/uploadFile", method = RequestMethod.POST)
-    public ResponseEntity uploadMultipleFileHandler(
-            @RequestParam("meta") String[][] meta,
-            @RequestParam("tags") String[][] tags,
-            @RequestParam("file") MultipartFile[] files,
+    @RequestMapping(value = "/img", method = RequestMethod.POST,
+                    produces = "application/json", consumes = "application/json")
+    public ResponseEntity<ImageContainer> postImage(
+            @RequestBody ImageContainer container,
             HttpServletRequest request) {
 
         // Return HTTP conflict if length of the file array and the file name array differ in length.
-        if (files.length != meta.length || files.length != tags.length) {
+        if (container.getBitmaps().length != container.getMeta().length || container
+                .getBitmaps().length != container.getTags().length) {
             return new ResponseEntity(HttpStatus.CONFLICT);
         }
 
-        for (int i = 0; i < files.length; i++) {
-            MultipartFile file = files[i];
-            String name = meta[i][0];
+        for (int i = 0; i < container.getBitmaps().length; i++) {
+            String name = container.getMeta()[i][0];
             // create meta object for image
             double latitude;
             double longitude;
             long userID;
             AppUser user;
             try {
-                latitude = Double.valueOf(meta[i][1]);
-                longitude = Double.valueOf(meta[i][2]);
-                userID = Long.valueOf(meta[i][3]);
+                latitude = Double.valueOf(container.getMeta()[i][1]);
+                longitude = Double.valueOf(container.getMeta()[i][2]);
+                userID = Long.valueOf(container.getMeta()[i][3]);
                 user = userDAO.getAppUser(userID);
                 if (user == null) {
                     throw new Exception("user not found");
                 }
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
                 return new ResponseEntity(HttpStatus.NOT_ACCEPTABLE);
             }
             Image image = new Image();
-            image.setFile_name(meta[i][0]);
+            image.setFile_name(container.getMeta()[i][0]);
             image.setLatitude(latitude);
             image.setLongitude(longitude);
             image.setOwner(user);
             HashSet<Tag> tagSet = new HashSet<>();
-            for(String string : tags[i]) {
+            for (String string : container.getTags()[i]) {
                 Tag tag = tagDAO.getTagByContent(string);
                 if (tag == null) {
                     tag = new Tag();
@@ -112,14 +108,14 @@ public class FileController {
             image.addTagSet(tagSet);
             image = imageDAO.addImage(image);
             try {
-                byte[] bytes = file.getBytes();
+                byte[] bytes = container.getBitmaps()[i];
 
                 // get absolute path of the application
                 ServletContext context = request.getServletContext();
                 String appPath = context.getRealPath("");
 
                 // Find or create the user directory
-                File dir = new File(appPath + File.separator + meta[i][3]);
+                File dir = new File(appPath + File.separator + container.getMeta()[i][3]);
                 if (!dir.exists()) {
                     dir.mkdirs();
                 }

@@ -50,6 +50,9 @@ public class Tag implements Serializable {
      * @return the images
      */
     public Set<Image> getImages() {
+        if (images == null) {
+            return new HashSet<>();
+        }
         return new HashSet<>(images);
     }
 
@@ -67,10 +70,10 @@ public class Tag implements Serializable {
      * @return 
      */
     public Tag addImage(Image image) {
-        if (this.getImages() == null) {
+        if (this.images == null) {
             images = new HashSet<>();
         }
-        this.getImages().add(image);
+        this.images.add(image);
         return this;
     }
 

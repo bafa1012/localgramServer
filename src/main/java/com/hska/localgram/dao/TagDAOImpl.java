@@ -3,6 +3,8 @@ package com.hska.localgram.dao;
 import com.hska.localgram.model.Image;
 import com.hska.localgram.model.Tag;
 import java.util.List;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -17,6 +19,14 @@ public class TagDAOImpl implements ITagDAO {
     
     @Autowired
     private SessionFactory sessionFactory;
+
+    private EntityManager em;
+    
+    @PersistenceContext
+    void setEntityManager(EntityManager entityManager)
+    {
+        this.em = entityManager;
+    }
     
     private Session getCurrentSession() {
         Session session;
@@ -34,12 +44,10 @@ public class TagDAOImpl implements ITagDAO {
         if (tag == null) {
             tag = newTag;
         }
-        if (!tag.getImages().contains(image)) {
-            tag.addImage(image);
-        }
-        image.addTag(tag);
-        getCurrentSession().save(newTag);
-        return getTagByContent(newTag.getTag());
+//        return em.merge(tag);
+        getCurrentSession().merge(tag);
+        getCurrentSession().save(tag);
+        return getTagByContent(tag.getTag());
     }
 
     @Override

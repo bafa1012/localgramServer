@@ -4,6 +4,9 @@ import com.hska.localgram.model.AppUser;
 import com.hska.localgram.model.Image;
 import com.hska.localgram.model.Tag;
 import java.util.List;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -19,6 +22,14 @@ public class ImageDAOImpl implements IImageDAO {
     @Autowired
     private SessionFactory sessionFactory;
 
+    private EntityManager em;
+    
+    @PersistenceContext
+    void setEntityManager(EntityManager entityManager)
+    {
+        this.em = entityManager;
+    }
+
     private Session getCurrentSession() {
         Session session;
         try {
@@ -30,9 +41,13 @@ public class ImageDAOImpl implements IImageDAO {
     }
 
     @Override
+    @Transactional
     public Image addImage(Image image) {
-        getCurrentSession()
-                .save(image);
+        getCurrentSession().merge(image);
+        if (image.getId() == null) {
+            getCurrentSession().save(image);
+        }
+//        return em.merge(image);
         return getImageByFileNameAndUser(image.getFile_name(), image.getOwner());
     }
 

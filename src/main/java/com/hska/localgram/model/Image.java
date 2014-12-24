@@ -128,6 +128,9 @@ public class Image implements Serializable {
      * @return the tag_list
      */
     public Set<Tag> getTag_list() {
+        if (tag_list == null) {
+            return new HashSet<>();
+        }
         return new HashSet<>(tag_list);
     }
 
@@ -136,6 +139,9 @@ public class Image implements Serializable {
      * @return 
      */
     public Image addTagSet(Set<Tag> tags) {
+        if (this.tag_list == null) {
+            tag_list = new HashSet<>();
+        }
         for (Tag tag : tags) {
             this.tag_list.add(tag);
         }

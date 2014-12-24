@@ -30,11 +30,15 @@ import org.springframework.web.context.support.AnnotationConfigWebApplicationCon
 import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.DispatcherServlet;
+import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 /**
  * Initializes and configures the application.
- * 
+ *
  * @author Fabian Bäuerlein <bafa1012@hs-karlsruhe.de>
  */
 @Configuration
@@ -43,7 +47,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 @ComponentScan("com.hska.localgram")
 @PropertySource("classpath:database.properties")
 @EnableWebMvc
-public class AppConfig implements WebApplicationInitializer {
+public class AppConfig extends WebMvcConfigurerAdapter implements WebApplicationInitializer {
 
     public AppConfig() {
         super();
@@ -52,8 +56,13 @@ public class AppConfig implements WebApplicationInitializer {
     @Resource
     private Environment env;
 
-    // Bean definitions
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("/html/**")
+                .addResourceLocations("/html/");
+    }
 
+    // Bean definitions
     @Bean
     public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
@@ -68,6 +77,14 @@ public class AppConfig implements WebApplicationInitializer {
                 Constants.PROPERTY_NAME_DATABASE_PASSWORD));
 
         return dataSource;
+    }
+
+    @Bean
+    public ViewResolver viewResolver() {
+        InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
+        viewResolver.setPrefix("/html/");
+        viewResolver.setSuffix(".html");
+        return viewResolver;
     }
 
     @Bean
@@ -94,10 +111,11 @@ public class AppConfig implements WebApplicationInitializer {
         sessionFactoryBean.setAnnotatedClasses(new Class[]{AppUser.class});
         sessionFactoryBean.setAnnotatedClasses(new Class[]{Image.class});
         sessionFactoryBean.setAnnotatedClasses(new Class[]{Tag.class});
+
         sessionFactoryBean.setHibernateProperties(hibProperties());
         return sessionFactoryBean;
     }
-    
+
     @Bean
     public MappingJackson2HttpMessageConverter jacksonMapping() {
         MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
@@ -121,7 +139,6 @@ public class AppConfig implements WebApplicationInitializer {
     }
 
     // Web Configuration
-
     @Override
     public void onStartup(ServletContext servletContext) throws ServletException {
         WebApplicationContext context = getContext();
