@@ -42,13 +42,19 @@ public class ImageDAOImpl implements IImageDAO {
 
     @Override
     @Transactional
-    public Image addImage(Image image) {
-        getCurrentSession().merge(image);
-        if (image.getId() == null) {
-            getCurrentSession().save(image);
+    public Image addImage(Image newImage) {
+        Image image = getImageByFileNameAndUser(newImage.getFile_name(), newImage.getOwner());
+        image.addTagSet(newImage.getTag_list());
+        try {
+            getCurrentSession().merge(image);
+//            if (image.getId() == null) {
+//                getCurrentSession().merge(image);
+//            }
         }
-//        return em.merge(image);
-        return getImageByFileNameAndUser(image.getFile_name(), image.getOwner());
+        catch (Exception e) {
+            // ToDo Exception handling
+        }
+        return image;
     }
 
     @Override
@@ -71,10 +77,8 @@ public class ImageDAOImpl implements IImageDAO {
     public Image getImageByFileNameAndUser(String fileName, AppUser user) {
         List<Image> images = getImages();
         for (Image image : images) {
-            if (image.getOwner()
-                    .equals(user)
-                    && image.getFile_name()
-                    .equals(fileName)) {
+            if (image.getOwner().getId().equals(user.getId())
+                    && image.getFile_name().equals(fileName)) {
                 return image;
             }
         }

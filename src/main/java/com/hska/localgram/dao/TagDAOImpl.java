@@ -12,13 +12,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 /**
- * Fabian Bäuerlein <bafa1012@hs-karlsruhe.de>
+ * Fabian BÃ¤uerlein <bafa1012@hs-karlsruhe.de>
  */
 @Repository
 public class TagDAOImpl implements ITagDAO {
     
     @Autowired
     private SessionFactory sessionFactory;
+    @Autowired
+    private IImageDAO imageDAO;
+    
 
     private EntityManager em;
     
@@ -39,14 +42,23 @@ public class TagDAOImpl implements ITagDAO {
     }
 
     @Override
-    public Tag addTag(Tag newTag, Image image) {
+    public Tag addTag(Tag newTag, Image newImage) {
         Tag tag = getTagByContent(newTag.getTag());
+        Image image = imageDAO.getImageByFileNameAndUser(newImage.getFile_name(), newImage.getOwner());
+        if (image == null) {
+            image = newImage;
+        }
         if (tag == null) {
             tag = newTag;
         }
+        if ((tag.getId() == null) ||
+                ((image.getId() != null)
+                && (tag.getImageById(image.getId()) != null)
+                && (tag.getImageById(image.getId()) == null))) {
+            getCurrentSession().merge(tag);
+            getCurrentSession().save(tag);
+        }
 //        return em.merge(tag);
-        getCurrentSession().merge(tag);
-        getCurrentSession().save(tag);
         return getTagByContent(tag.getTag());
     }
 

@@ -106,7 +106,12 @@ public class FileController {
                 tagSet.add(tag);
             }
             image.addTagSet(tagSet);
-            image = imageDAO.addImage(image);
+            try {
+                image = imageDAO.addImage(image);
+            }
+            catch (Exception e) {
+                // ToDO Exception Handling
+            }
             try {
                 byte[] bytes = container.getBitmaps()[i];
 

@@ -1,7 +1,9 @@
 package com.hska.localgram.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -44,6 +46,16 @@ public class Tag implements Serializable {
      */
     public Long getId() {
         return id;
+    }
+    
+    public Image getImageById(Long id) {
+        List<Image> images = new ArrayList<>(getImages());
+        for (Image image : images) {
+            if (image.getId().equals(id)) {
+                return image;
+            }
+        }
+        return null;
     }
 
     /**
