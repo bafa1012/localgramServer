@@ -47,21 +47,23 @@ public class TagRestController {
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public Tag getTag(@RequestParam(value = "id", required = false,
+    public ResponseEntity getTag(@RequestParam(value = "id", required = false,
                                     defaultValue = "8") Long id) {
-        return service.getTag(id);
+        ResponseEntity response = new ResponseEntity(service.getTag(id), HttpStatus.OK);
+        return response;
     }
 
     @RequestMapping(value = "/vote", method = RequestMethod.GET)
-    public Tag voteTag(@RequestParam(value = "id") Long id) {
+    public ResponseEntity voteTag(@RequestParam(value = "id") Long id) {
         ImageTagVote v = vote.vote(id);
-        return v.getTag();
+        ResponseEntity response = new ResponseEntity(v.getTag(), HttpStatus.OK);
+        return response;
     }
 
     @RequestMapping(value = "/all", method = RequestMethod.GET)
-    public List<Tag> getTags() {
-        List<Tag> tags = service.getTags();
-        return tags;
+    public ResponseEntity getTags() {
+        ResponseEntity response = new ResponseEntity(service.getTags(), HttpStatus.OK);
+        return response;
     }
 
     @RequestMapping(method = RequestMethod.PUT)

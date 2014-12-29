@@ -30,7 +30,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 /**
- * Fabian Bäuerlein <bafa1012@hs-karlsruhe.de>
+ * Fabian BÃƒÂ¤uerlein <bafa1012@hs-karlsruhe.de>
  */
 @Controller
 @Secured("ROLE_USER")
@@ -76,13 +76,13 @@ public class FileController {
             // create meta object for image
             double latitude;
             double longitude;
-            long userID;
+            String userName;
             AppUser user;
             try {
                 latitude = Double.valueOf(container.getMeta()[i][1]);
                 longitude = Double.valueOf(container.getMeta()[i][2]);
-                userID = Long.valueOf(container.getMeta()[i][3]);
-                user = userDAO.getAppUser(userID);
+                userName = container.getMeta()[i][3];
+                user = userDAO.getAppUserByName(userName);
                 if (user == null) {
                     throw new Exception("user not found");
                 }
@@ -96,10 +96,7 @@ public class FileController {
             image.setOwner(user);
             HashSet<Tag> tagSet = new HashSet<>();
             for (String string : container.getTags()[i]) {
-                Tag tag = tagDAO.getTagByContent(string);
-                if (tag == null) {
-                    tag = new Tag();
-                }
+                Tag tag = new Tag();
                 tag.addImage(image);
                 tag.setTag(string);
                 tag = tagDAO.addTag(tag, image);

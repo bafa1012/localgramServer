@@ -25,7 +25,8 @@ public class ImageRestController {
     @Autowired
     private IImageService service;
 
-    @RequestMapping(method = RequestMethod.POST, consumes="application/x-www-form-urlencoded")
+    @RequestMapping(method = RequestMethod.POST,
+                    consumes = "application/x-www-form-urlencoded")
     public ResponseEntity addImage(@RequestBody Image image) {
         if (service.addImage(image) != null) {
             return new ResponseEntity(HttpStatus.OK);
@@ -44,35 +45,43 @@ public class ImageRestController {
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public Image getImage(@RequestParam(value = "id", required = false,
+    public ResponseEntity getImage(@RequestParam(value = "id", required = false,
                                         defaultValue = "8") Long id) {
-        return service.getImage(id);
+        ResponseEntity response = new ResponseEntity(service.getImage(id), HttpStatus.OK);
+        return response;
     }
 
     @RequestMapping(value = "/all", method = RequestMethod.GET)
-    public List<Image> getImages() {
+    public ResponseEntity getImages() {
         List<Image> images = service.getImages();
-        return images;
+        ResponseEntity response = new ResponseEntity(images, HttpStatus.OK);
+        return response;
     }
 
     @RequestMapping(value = "/user/{user_id}", method = RequestMethod.GET)
-    public List<Image> getImagesByUser(@PathVariable("user_id") Long userId) {
+    public ResponseEntity getImagesByUser(@PathVariable("user_id") Long userId) {
         List<Image> images = service.getImagesByUser(userId);
-        return images;
+        ResponseEntity response = new ResponseEntity(images, HttpStatus.OK);
+        return response;
     }
 
     @RequestMapping(value = "/tag/{tag_id}", method = RequestMethod.GET)
-    public List<Image> getImagesByTag(@PathVariable("tag_id") Long tagID) {
+    public ResponseEntity getImagesByTag(@PathVariable("tag_id") Long tagID) {
         List<Image> images = service.getImagesByTag(tagID);
-        return images;
+        ResponseEntity response = new ResponseEntity(images, HttpStatus.OK);
+        return response;
     }
 
-    @RequestMapping(value = "/geo/{latitude:.+}/{longitude:.+}/{radius}", method = RequestMethod.GET)
-    public List<Image> getImagesByGeoLocation(@PathVariable("latitude") double latitude,
-                                              @PathVariable("longitude") double longitude,
-                                              @PathVariable("radius") int radius) {
-        List<Image> images = service.getImagesByGeoLocation(latitude, longitude, radius);
-        return images;
+    @RequestMapping(value = "/geo/{latitude:.+}/{longitude:.+}/{radius}",
+                    method = RequestMethod.GET)
+    public ResponseEntity getImagesByGeoLocation(
+            @PathVariable("latitude") double latitude,
+            @PathVariable("longitude") double longitude,
+            @PathVariable("radius") int radius) {
+        List<Image> images = service.getImagesByGeoLocation(latitude, longitude,
+                                                            radius);
+        ResponseEntity response = new ResponseEntity(images, HttpStatus.OK);
+        return response;
     }
 
     @RequestMapping(method = RequestMethod.PUT)

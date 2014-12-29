@@ -39,6 +39,7 @@ public class Image implements Serializable {
     @JsonIgnore
     private AppUser owner;
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JsonIgnore
     @JoinTable(
             name = "image_tag_join",
             joinColumns = @JoinColumn(name = "image_id"),
@@ -103,6 +104,7 @@ public class Image implements Serializable {
 
     /**
      * @param id the image_id to set
+     * @return 
      */
     public Image setId(Long id) {
         this.image_id = id;
@@ -112,13 +114,16 @@ public class Image implements Serializable {
     /**
      * @return the owner
      */
+    @JsonIgnore
     public AppUser getOwner() {
         return owner;
     }
 
     /**
      * @param owner the owner to set
+     * @return 
      */
+    @JsonIgnore
     public Image setOwner(AppUser owner) {
         this.owner = owner;
         return this;
@@ -127,6 +132,7 @@ public class Image implements Serializable {
     /**
      * @return the tag_list
      */
+    @JsonIgnore
     public Set<Tag> getTag_list() {
         if (tag_list == null) {
             return new HashSet<>();
@@ -138,6 +144,7 @@ public class Image implements Serializable {
      * @param tags
      * @return 
      */
+    @JsonIgnore
     public Image addTagSet(Set<Tag> tags) {
         if (this.tag_list == null) {
             tag_list = new HashSet<>();
@@ -152,6 +159,7 @@ public class Image implements Serializable {
      * @param tag
      * @return 
      */
+    @JsonIgnore
     public Image addTag(Tag tag) {
         if (this.tag_list == null) {
             tag_list = new HashSet<>();

@@ -43,13 +43,10 @@ public class TagDAOImpl implements ITagDAO {
 
     @Override
     public Tag addTag(Tag newTag, Image newImage) {
-        Tag tag = getTagByContent(newTag.getTag());
+        Tag tag = newTag;
         Image image = imageDAO.getImageByFileNameAndUser(newImage.getFile_name(), newImage.getOwner());
         if (image == null) {
             image = newImage;
-        }
-        if (tag == null) {
-            tag = newTag;
         }
         if ((tag.getId() == null) ||
                 ((image.getId() != null)
