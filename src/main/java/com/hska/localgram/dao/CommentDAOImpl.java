@@ -53,7 +53,8 @@ public class CommentDAOImpl implements ICommentDAO {
     @Override
     public Comment getCommentByMessage(String message) {
         List<Comment> list = getCurrentSession()
-                .createQuery("from Comment where message = " + message)
+                .createSQLQuery("select * from Comment where message = \"" + message + "\"")
+                .addEntity(Comment.class)
                 .list();
         return list.get(0);
     }
