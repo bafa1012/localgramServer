@@ -1,5 +1,6 @@
 package com.hska.localgram.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -26,8 +27,10 @@ public class Comment implements Serializable {
     private Long id;
     private String message;
     @OneToOne
+    @JsonIgnore
     private AppUser user;
     @OneToOne
+    @JsonIgnore
     private Image image;
 
     /**
