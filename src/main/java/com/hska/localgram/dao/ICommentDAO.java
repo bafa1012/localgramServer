@@ -4,7 +4,6 @@ import com.hska.localgram.model.AppUser;
 import com.hska.localgram.model.Image;
 import com.hska.localgram.model.Comment;
 import java.util.List;
-import org.springframework.stereotype.Repository;
 
 /**
  *
@@ -12,7 +11,7 @@ import org.springframework.stereotype.Repository;
  */
 public interface ICommentDAO {
 
-    public Comment addComment(String message, Image image, AppUser user);
+    public Comment addComment(Comment comment);
 
     public Comment getComment(Long id);
 

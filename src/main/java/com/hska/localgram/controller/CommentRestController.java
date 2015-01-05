@@ -30,8 +30,8 @@ public class CommentRestController {
     private IImageTagVoteService vote;
 
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity addComment(@RequestBody String message, @RequestBody Image image, @RequestBody AppUser user) {
-        if (service.addComment(message, image, user) != null) {
+    public ResponseEntity addComment(@RequestBody Comment comment) {
+        if (service.addComment(comment) != null) {
             return new ResponseEntity(HttpStatus.OK);
         } else {
             return new ResponseEntity(HttpStatus.FORBIDDEN);
@@ -48,36 +48,40 @@ public class CommentRestController {
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public Comment getComment(@RequestParam(value = "id") Long id) {
-        return service.getComment(id);
+    public ResponseEntity getComment(@RequestParam(value = "id") Long id) {
+        ResponseEntity response = new ResponseEntity(service.getComment(id), HttpStatus.OK);
+        return response;
     }
 
     @RequestMapping(value = "/user", method = RequestMethod.GET)
-    public List<Comment> getCommentsByUserName(@RequestParam(value = "userID") Long id) {
+    public ResponseEntity getCommentsByUserName(@RequestParam(value = "userID") Long id) {
         List<Comment> comments = service.getComments();
         for (Comment comment : comments) {
             if (!comment.getUser().getId().equals(id)) {
                 comments.remove(comment);
             }
         }
-        return comments;
+        ResponseEntity response = new ResponseEntity(comments, HttpStatus.OK);
+        return response;
     }
 
     @RequestMapping(value="/image", method = RequestMethod.GET)
-    public List<Comment> getCommentsByImage(@RequestParam(value = "imageID") Long id) {
+    public ResponseEntity getCommentsByImage(@RequestParam(value = "imageID") Long id) {
         List<Comment> comments = service.getComments();
         for (Comment comment : comments) {
             if (!comment.getImage().getId().equals(id)) {
                 comments.remove(comment);
             }
         }
-        return comments;
+        ResponseEntity response = new ResponseEntity(comments, HttpStatus.OK);
+        return response;
     }
 
     @RequestMapping(value = "/all", method = RequestMethod.GET)
-    public List<Comment> getComments() {
+    public ResponseEntity getComments() {
         List<Comment> comments = service.getComments();
-        return comments;
+        ResponseEntity response = new ResponseEntity(comments, HttpStatus.OK);
+        return response;
     }
 
     @RequestMapping(method = RequestMethod.PUT)

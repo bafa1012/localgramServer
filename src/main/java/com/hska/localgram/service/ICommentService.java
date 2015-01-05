@@ -1,8 +1,6 @@
 package com.hska.localgram.service;
 
-import com.hska.localgram.model.AppUser;
 import com.hska.localgram.model.Comment;
-import com.hska.localgram.model.Image;
 import java.util.List;
 
 /**
@@ -11,7 +9,7 @@ import java.util.List;
  */
 public interface ICommentService {
 
-    public Comment addComment(String message, Image image, AppUser user);
+    public Comment addComment(Comment comment);
 
     public Comment getComment(Long id);
 

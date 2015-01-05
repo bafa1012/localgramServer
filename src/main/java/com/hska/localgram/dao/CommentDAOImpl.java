@@ -31,8 +31,7 @@ public class CommentDAOImpl implements ICommentDAO {
     }
 
     @Override
-    public Comment addComment(String message, Image image, AppUser user) {
-        Comment comment = new Comment().setMessage(message).setImage(image).setUser(user);
+    public Comment addComment(Comment comment) {
         getCurrentSession().save(comment);
         return getCommentByMessage(comment.getMessage());
     }
