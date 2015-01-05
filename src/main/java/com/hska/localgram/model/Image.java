@@ -32,6 +32,7 @@ public class Image implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "image_id", nullable = false)
     private Long image_id;
+    private String description;
     private double latitude;
     private double longitude;
     private String file_name;
@@ -46,6 +47,22 @@ public class Image implements Serializable {
             inverseJoinColumns = @JoinColumn(name = "tag_id")
     )
     private Set<Tag> tag_list;
+
+    /**
+     * @return the description
+     */
+    public String getDescription() {
+        return description;
+    }
+
+    /**
+     * @param description the description to set
+     * @return 
+     */
+    public Image setDescription(String description) {
+        this.description = description;
+        return this;
+    }
 
     /**
      * @return the file_name

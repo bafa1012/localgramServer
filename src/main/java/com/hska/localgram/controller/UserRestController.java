@@ -51,7 +51,7 @@ public class UserRestController {
             for (int i = 0; i < fileStr.length; ++i) {
                 images[0][i] = fileStr[i];
             }
-            ImageContainer container = new ImageContainer(meta, tags, images);
+            ImageContainer container = new ImageContainer("description", meta, tags, images);
 
             return new ResponseEntity<>(container, HttpStatus.OK);
         } catch (IOException ex) {

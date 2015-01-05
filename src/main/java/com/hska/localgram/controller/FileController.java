@@ -91,6 +91,7 @@ public class FileController {
             }
             Image image = new Image();
             image.setFile_name(container.getMeta()[i][0]);
+            image.setDescription(container.getDescription());
             image.setLatitude(latitude);
             image.setLongitude(longitude);
             image.setOwner(user);
@@ -105,8 +106,7 @@ public class FileController {
             image.addTagSet(tagSet);
             try {
                 image = imageDAO.addImage(image);
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
                 // ToDO Exception Handling
             }
             try {
@@ -117,7 +117,8 @@ public class FileController {
                 String appPath = context.getRealPath("");
 
                 // Find or create the user directory
-                File dir = new File(appPath + File.separator + container.getMeta()[i][3]);
+                File dir = new File(appPath + File.separator + container
+                        .getMeta()[i][3]);
                 if (!dir.exists()) {
                     dir.mkdirs();
                 }
@@ -152,36 +153,31 @@ public class FileController {
         // construct the complete absolute path of the file
         String fullPath = appPath + File.separator + userName + File.separator + fileName;
         File downloadFile = new File(fullPath);
-        FileInputStream inputStream = new FileInputStream(downloadFile);
-
+        OutputStream outStream;
         // get MIME type of the file
-        String mimeType = context.getMimeType(fullPath);
-        if (mimeType == null) {
-            // set to binary type if MIME mapping not found
-            mimeType = "application/octet-stream";
+        try (FileInputStream inputStream = new FileInputStream(downloadFile)) {
+            // get MIME type of the file
+            String mimeType = context.getMimeType(fullPath);
+            if (mimeType == null) {
+                // set to binary type if MIME mapping not found
+                mimeType = "application/octet-stream";
+            }   // set content attributes for the response
+            response.setContentType(mimeType);
+            response.setContentLength((int) downloadFile.length());
+            // set headers for the response
+            String headerKey = "Content-Disposition";
+            String headerValue = String.format("attachment; filename=\"%s\"",
+                                               downloadFile.getName());
+            response.setHeader(headerKey, headerValue);
+            // get output stream of the response
+            outStream = response.getOutputStream();
+            byte[] buffer = new byte[Constants.MAX_UPLOAD_SIZE];
+            int bytesRead = -1;
+            // write bytes read from the input stream into the output stream
+            while ((bytesRead = inputStream.read(buffer)) != -1) {
+                outStream.write(buffer, 0, bytesRead);
+            }
         }
-
-        // set content attributes for the response
-        response.setContentType(mimeType);
-        response.setContentLength((int) downloadFile.length());
-
-        // set headers for the response
-        String headerKey = "Content-Disposition";
-        String headerValue = String.format("attachment; filename=\"%s\"",
-                                           downloadFile.getName());
-        response.setHeader(headerKey, headerValue);
-
-        // get output stream of the response
-        OutputStream outStream = response.getOutputStream();
-
-        byte[] buffer = new byte[Constants.MAX_UPLOAD_SIZE];
-        int bytesRead = -1;
-
-        // write bytes read from the input stream into the output stream
-        while ((bytesRead = inputStream.read(buffer)) != -1) {
-            outStream.write(buffer, 0, bytesRead);
-        }
-        inputStream.close();
         outStream.close();
     }
 }

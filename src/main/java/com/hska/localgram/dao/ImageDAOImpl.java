@@ -8,8 +8,10 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 import org.hibernate.HibernateException;
+import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -34,6 +36,7 @@ public class ImageDAOImpl implements IImageDAO {
         Session session;
         try {
             session = sessionFactory.getCurrentSession();
+            
         } catch (HibernateException e) {
             session = sessionFactory.openSession();
         }
@@ -113,13 +116,25 @@ public class ImageDAOImpl implements IImageDAO {
     @Override
     public List<Image> getImagesByGeoLocation(double latitude, double longitude,
                                               int radius) {
-        return getCurrentSession()
+        SQLQuery query = getCurrentSession()
                 .createSQLQuery(
-                        "SELECT * FROM image WHERE acos(sin(:latitude) * sin(latitude) + cos(:latitude) * cos(latitude) * cos(longitude - (:longitude))) * 6371 <= :radius")
-                .setParameter("latitude", "" + latitude)
+                        "SELECT * FROM image WHERE acos(sin(:latitude) * sin(latitude) + cos(:latitude) * cos(latitude) * cos(longitude - (:longitude))) * 6371 <= :radius");
+        query.setParameter("latitude", "" + latitude)
                 .setParameter("longitude", "" + longitude)
-                .setParameter("radius", "" + radius)
-                .list();
+                .setParameter("radius", "" + radius);
+        query.addEntity(Image.class);
+        List<Image> images = query.list();
+//        List<Image> images = new ArrayList<>();
+//        for (Object o : rows) {
+//            Map map = (Map) o;
+//            Image image = new Image();
+//            image.setFile_name((String) map.get((Object) "file_name"));
+//            image.setId((Long) map.get((Object) "id"));
+//            image.setLatitude((double) map.get((Object) "latitude"));
+//            image.setLongitude((double) map.get((Object) "longitude"));
+//            images.add(image);
+//        }
+        return images;
     }
 
     // TODO implementation
