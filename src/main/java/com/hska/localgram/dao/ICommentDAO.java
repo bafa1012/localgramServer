@@ -1,7 +1,5 @@
 package com.hska.localgram.dao;
 
-import com.hska.localgram.model.AppUser;
-import com.hska.localgram.model.Image;
 import com.hska.localgram.model.Comment;
 import java.util.List;
 
@@ -11,7 +9,7 @@ import java.util.List;
  */
 public interface ICommentDAO {
 
-    public Comment addComment(Comment comment);
+    public void addComment(Comment comment);
 
     public Comment getComment(Long id);
 

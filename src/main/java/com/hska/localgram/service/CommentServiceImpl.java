@@ -21,8 +21,8 @@ public class CommentServiceImpl implements ICommentService {
     private ICommentDAO commentDAO;
 
     @Override
-    public Comment addComment(Comment comment) {
-        return commentDAO.addComment(comment);
+    public void addComment(Comment comment) {
+        commentDAO.addComment(comment);
     }
 
     @Override

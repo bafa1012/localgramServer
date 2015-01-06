@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 /**
  *
- * @author Fabian BÃ¤uerlein <bafa1012@hs-karlsruhe.de>
+ * @author Fabian BÃƒÂ¤uerlein <bafa1012@hs-karlsruhe.de>
  */
 @RestController
 @RequestMapping("/comment")
@@ -37,7 +37,7 @@ public class CommentRestController {
     @Autowired
     private IImageTagVoteService vote;
 
-    @RequestMapping(method = RequestMethod.POST, value = "{user_name}/{image_name}")
+    @RequestMapping(method = RequestMethod.POST, value = "{user_name}/{image_name:.+}")
     public ResponseEntity addComment(@RequestBody Comment comment,
                                      @PathVariable("user_name") String userName,
                                      @PathVariable("image_name") String imageName) {
@@ -48,11 +48,7 @@ public class CommentRestController {
         }
         comment.setUser(user);
         comment.setImage(image);
-        if (service.addComment(comment) != null) {
-            return new ResponseEntity(HttpStatus.OK);
-        } else {
-            return new ResponseEntity(HttpStatus.FORBIDDEN);
-        }
+        return new ResponseEntity(HttpStatus.OK);
     }
 
     @RequestMapping(method = RequestMethod.DELETE, value = "/{comment_id}")
@@ -86,7 +82,9 @@ public class CommentRestController {
     public ResponseEntity getCommentsByImage(@PathVariable("image_name") String name) {
         List<Comment> comments = service.getComments();
         for (Comment comment : comments) {
-            if (!comment.getImage().getFile_name().equals(name)) {
+            // Split the file name at dot of file ending
+            String fileName = comment.getImage().getFile_name().split("\\.")[0];
+            if (!fileName.equals(name)) {
                 comments.remove(comment);
             }
         }

@@ -5,6 +5,7 @@ import com.hska.localgram.model.Image;
 import com.hska.localgram.model.Comment;
 import java.util.List;
 import org.hibernate.HibernateException;
+import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,9 +32,8 @@ public class CommentDAOImpl implements ICommentDAO {
     }
 
     @Override
-    public Comment addComment(Comment comment) {
+    public void addComment(Comment comment) {
         getCurrentSession().save(comment);
-        return getCommentByMessage(comment.getMessage());
     }
 
     @Override
@@ -52,10 +52,11 @@ public class CommentDAOImpl implements ICommentDAO {
 
     @Override
     public Comment getCommentByMessage(String message) {
-        List<Comment> list = getCurrentSession()
-                .createSQLQuery("select * from Comment where message = \"" + message + "\"")
-                .addEntity(Comment.class)
-                .list();
+        SQLQuery query = getCurrentSession()
+                .createSQLQuery("select * from Comment where message = :message");
+        query.setParameter("message", message);
+        query.addEntity(Comment.class);
+        List<Comment> list = query.list();
         return list.get(0);
     }
 
