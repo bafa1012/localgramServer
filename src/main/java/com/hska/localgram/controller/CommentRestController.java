@@ -8,6 +8,7 @@ import com.hska.localgram.service.ICommentService;
 import com.hska.localgram.service.IImageService;
 import com.hska.localgram.service.IImageTagVoteService;
 import java.util.List;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,6 +27,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/comment")
 @Secured("ROLE_USER")
 public class CommentRestController {
+    
+   static Logger log = Logger.getLogger(CommentRestController.class.getName());
 
     @Autowired
     private ICommentService service;
@@ -41,6 +44,7 @@ public class CommentRestController {
     public ResponseEntity addComment(@RequestBody Comment comment,
                                      @PathVariable("user_name") String userName,
                                      @PathVariable("image_name") String imageName) {
+        
         AppUser user = userService.getAppUserByName(userName);
         Image image = imageService.getImageByFileNameAndUser(imageName, user);
         if (user == null || image == null) {
@@ -48,6 +52,7 @@ public class CommentRestController {
         }
         comment.setUser(user);
         comment.setImage(image);
+        service.addComment(comment);
         return new ResponseEntity(HttpStatus.OK);
     }
 
