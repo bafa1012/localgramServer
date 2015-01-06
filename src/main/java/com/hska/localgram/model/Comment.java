@@ -26,12 +26,21 @@ public class Comment implements Serializable {
     @Column(name = "tag_id", nullable = false)
     private Long id;
     private String message;
+    private String userName;
+    private String fileName;
     @OneToOne
     @JsonIgnore
     private AppUser user;
     @OneToOne
     @JsonIgnore
     private Image image;
+
+    /**
+     * @return the fileName
+     */
+    public String getFileName() {
+        return fileName;
+    }
 
     /**
      * @return the id
@@ -48,11 +57,19 @@ public class Comment implements Serializable {
     }
 
     /**
+     * @return the userName
+     */
+    public String getUserName() {
+        return userName;
+    }
+
+    /**
      * @param image the image to set
      * @return 
      */
     public Comment setImage(Image image) {
         this.image = image;
+        this.fileName = image.getFile_name();
         return this;
     }
 
@@ -85,6 +102,7 @@ public class Comment implements Serializable {
      */
     public Comment setUser(AppUser user) {
         this.user = user;
+        this.userName = user.getName();
         return this;
     }
 }
