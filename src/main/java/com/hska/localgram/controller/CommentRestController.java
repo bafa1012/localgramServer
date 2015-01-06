@@ -37,12 +37,12 @@ public class CommentRestController {
     @Autowired
     private IImageTagVoteService vote;
 
-    @RequestMapping(method = RequestMethod.POST, value = "{user_id}/{image_id}")
+    @RequestMapping(method = RequestMethod.POST, value = "{user_name}/{image_name}")
     public ResponseEntity addComment(@RequestBody Comment comment,
-                                     @PathVariable("user_id") Long userId,
-                                     @PathVariable("image_id") Long imageId) {
-        AppUser user = userService.getAppUser(userId);
-        Image image = imageService.getImage(imageId);
+                                     @PathVariable("user_name") String userName,
+                                     @PathVariable("image_name") String imageName) {
+        AppUser user = userService.getAppUserByName(userName);
+        Image image = imageService.getImageByFileNameAndUser(imageName, user);
         if (user == null || image == null) {
             return new ResponseEntity(HttpStatus.FORBIDDEN);
         }
@@ -70,11 +70,11 @@ public class CommentRestController {
         return response;
     }
 
-    @RequestMapping(value = "/user/{user_id}", method = RequestMethod.GET)
-    public ResponseEntity getCommentsByUserName(@PathVariable("user_id") Long id) {
+    @RequestMapping(value = "/user/{user_name}", method = RequestMethod.GET)
+    public ResponseEntity getCommentsByUserName(@PathVariable("user_name") String userName) {
         List<Comment> comments = service.getComments();
         for (Comment comment : comments) {
-            if (!comment.getUser().getId().equals(id)) {
+            if (!comment.getUser().getName().equals(userName)) {
                 comments.remove(comment);
             }
         }
@@ -82,11 +82,11 @@ public class CommentRestController {
         return response;
     }
 
-    @RequestMapping(value="/image/{image_id}", method = RequestMethod.GET)
-    public ResponseEntity getCommentsByImage(@PathVariable("image_id") Long id) {
+    @RequestMapping(value="/image/{image_name}", method = RequestMethod.GET)
+    public ResponseEntity getCommentsByImage(@PathVariable("image_name") String name) {
         List<Comment> comments = service.getComments();
         for (Comment comment : comments) {
-            if (!comment.getImage().getId().equals(id)) {
+            if (!comment.getImage().getFile_name().equals(name)) {
                 comments.remove(comment);
             }
         }

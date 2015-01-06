@@ -2,6 +2,7 @@ package com.hska.localgram.service;
 
 import com.hska.localgram.dao.IImageDAO;
 import com.hska.localgram.dao.ITagDAO;
+import com.hska.localgram.model.AppUser;
 import com.hska.localgram.model.Image;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +37,11 @@ public class ImageServiceImpl implements IImageService {
     @Override
     public Image getImage(Long id) {
         return imageDAO.getImage(id);
+    }
+
+    @Override
+    public Image getImageByFileNameAndUser(String fileName, AppUser user) {
+        return imageDAO.getImageByFileNameAndUser(fileName, user);
     }
 
     @Override
