@@ -1,8 +1,7 @@
 package com.hska.localgram.dao;
 
-import com.hska.localgram.model.AppUser;
-import com.hska.localgram.model.Image;
 import com.hska.localgram.model.Comment;
+import java.util.Iterator;
 import java.util.List;
 import org.hibernate.HibernateException;
 import org.hibernate.SQLQuery;
@@ -20,6 +19,20 @@ public class CommentDAOImpl implements ICommentDAO {
     
     @Autowired
     private SessionFactory sessionFactory;
+
+    @Override
+    public List<Comment> getCommentsByImage(String name) {
+        List<Comment> comments = getComments();
+        Iterator<Comment> it = comments.iterator();
+        while (it.hasNext()) {
+            // Split the file name at dot of file ending
+            String fileName = it.next().getImage().getFile_name().split("\\.")[0];
+            if (!fileName.equals(name)) {
+                it.remove();
+            }
+        }
+        return comments;
+    }
     
     private Session getCurrentSession() {
         Session session;

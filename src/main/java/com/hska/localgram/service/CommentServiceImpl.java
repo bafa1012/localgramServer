@@ -1,8 +1,6 @@
 package com.hska.localgram.service;
 
 import com.hska.localgram.dao.ICommentDAO;
-import com.hska.localgram.model.AppUser;
-import com.hska.localgram.model.Image;
 import com.hska.localgram.model.Comment;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +41,11 @@ public class CommentServiceImpl implements ICommentService {
     @Override
     public List<Comment> getComments() {
         return commentDAO.getComments();
+    }
+
+    @Override
+    public List<Comment> getCommentsByImage(String name) {
+        return commentDAO.getCommentsByImage(name);
     }
 
     @Override

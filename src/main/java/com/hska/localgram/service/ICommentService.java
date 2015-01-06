@@ -15,6 +15,8 @@ public interface ICommentService {
 
     public Comment getCommentByMessage(String message);
 
+    public List<Comment> getCommentsByImage(String name);
+
     public Comment updateComment(Comment comment);
 
     public boolean deleteComment(Long id);

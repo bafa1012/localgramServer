@@ -7,6 +7,7 @@ import com.hska.localgram.service.IAppUserService;
 import com.hska.localgram.service.ICommentService;
 import com.hska.localgram.service.IImageService;
 import com.hska.localgram.service.IImageTagVoteService;
+import java.util.Iterator;
 import java.util.List;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 /**
  *
- * @author Fabian BÃƒÂ¤uerlein <bafa1012@hs-karlsruhe.de>
+ * @author Fabian BÃƒÆ’Ã‚Â¤uerlein <bafa1012@hs-karlsruhe.de>
  */
 @RestController
 @RequestMapping("/comment")
@@ -74,9 +75,10 @@ public class CommentRestController {
     @RequestMapping(value = "/user/{user_name}", method = RequestMethod.GET)
     public ResponseEntity getCommentsByUserName(@PathVariable("user_name") String userName) {
         List<Comment> comments = service.getComments();
-        for (Comment comment : comments) {
-            if (!comment.getUser().getName().equals(userName)) {
-                comments.remove(comment);
+        Iterator<Comment> it = comments.iterator();
+        while (it.hasNext()) {
+            if (!it.next().getUser().getName().equals(userName)) {
+                it.remove();
             }
         }
         ResponseEntity response = new ResponseEntity(comments, HttpStatus.OK);
@@ -85,21 +87,15 @@ public class CommentRestController {
 
     @RequestMapping(value="/image/{image_name}", method = RequestMethod.GET)
     public ResponseEntity getCommentsByImage(@PathVariable("image_name") String name) {
-        List<Comment> comments = service.getComments();
-        for (Comment comment : comments) {
-            // Split the file name at dot of file ending
-            String fileName = comment.getImage().getFile_name().split("\\.")[0];
-            if (!fileName.equals(name)) {
-                comments.remove(comment);
-            }
-        }
+        List<Comment> comments = service.getCommentsByImage(name);
         ResponseEntity response = new ResponseEntity(comments, HttpStatus.OK);
         return response;
     }
 
     @RequestMapping(value = "/all", method = RequestMethod.GET)
     public ResponseEntity getComments() {
-        List<Comment> comments = service.getComments();
+//        List<Comment> comments = service.getComments();
+        List<Comment> comments = service.getCommentsByImage("testfile");
         ResponseEntity response = new ResponseEntity(comments, HttpStatus.OK);
         return response;
     }
