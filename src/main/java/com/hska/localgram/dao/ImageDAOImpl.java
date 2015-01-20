@@ -47,7 +47,10 @@ public class ImageDAOImpl implements IImageDAO {
     @Transactional
     public Image addImage(Image newImage) {
         Image image = getImageByFileNameAndUser(newImage.getFile_name(), newImage.getOwner());
-        image.addTagSet(newImage.getTag_list());
+        if (image != null)
+            image.addTagSet(newImage.getTag_list());
+        else
+            image = newImage;
         try {
             getCurrentSession().merge(image);
 //            if (image.getId() == null) {
@@ -80,8 +83,7 @@ public class ImageDAOImpl implements IImageDAO {
     public Image getImageByFileNameAndUser(String fileName, AppUser user) {
         List<Image> images = getImages();
         for (Image image : images) {
-            if (image.getOwner().getId().equals(user.getId())
-                    && image.getFile_name().equals(fileName)) {
+            if (image.getFile_name().equals(fileName)) {
                 return image;
             }
         }

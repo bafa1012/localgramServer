@@ -117,8 +117,7 @@ public class FileController {
                 String appPath = context.getRealPath("");
 
                 // Find or create the user directory
-                File dir = new File(appPath + File.separator + container
-                        .getMeta()[i][3]);
+                File dir = new File(appPath + File.separator + "save");
                 if (!dir.exists()) {
                     dir.mkdirs();
                 }
@@ -151,7 +150,7 @@ public class FileController {
         String appPath = context.getRealPath("");
 
         // construct the complete absolute path of the file
-        String fullPath = appPath + File.separator + userName + File.separator + fileName;
+        String fullPath = appPath + File.separator + "save" + File.separator + fileName;
         File downloadFile = new File(fullPath);
         OutputStream outStream;
         // get MIME type of the file
